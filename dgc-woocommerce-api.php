@@ -61,6 +61,41 @@ add_action( 'plugins_loaded', 'dgc_API_global' );
 add_action( 'user_register', 'dgc_API_create_user_shortcode', 10, 1 );
 add_action( 'edit_user_profile_update', 'dgc_API_update_user_shortcode');
 add_shortcode( 'dgc-api-test', 'dgc_API_test_shortcode' );
+
+$active_plugins = apply_filters('active_plugins', get_option('active_plugins'));
+if(dgc_payment_is_woocommerce_active()){
+	add_filter('woocommerce_payment_gateways', 'add_dgc_payment_gateway');
+	function add_dgc_payment_gateway( $gateways ){
+		$gateways[] = 'WC_dgc_Payment_Gateway';
+		return $gateways; 
+	}
+
+	add_action('plugins_loaded', 'init_dgc_payment_gateway');
+	function init_dgc_payment_gateway(){
+		require 'class-woocommerce-dgc-payment-gateway.php';
+	}
+/*
+	add_action( 'plugins_loaded', 'dgc_payment_load_plugin_textdomain' );
+	function dgc_payment_load_plugin_textdomain() {
+	  load_plugin_textdomain( 'woocommerce-dgc-payment-gateway', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+	}
+*/	
+}
+
+/**
+ * @return bool
+ */
+function dgc_payment_is_woocommerce_active()
+{
+	$active_plugins = (array) get_option('active_plugins', array());
+
+	if (is_multisite()) {
+		$active_plugins = array_merge($active_plugins, get_site_option('active_sitewide_plugins', array()));
+	}
+
+	return in_array('woocommerce/woocommerce.php', $active_plugins) || array_key_exists('woocommerce/woocommerce.php', $active_plugins);
+}
+
 /*
 add_action('admin_menu', 'awesome_page_create');
 function awesome_page_create() {
