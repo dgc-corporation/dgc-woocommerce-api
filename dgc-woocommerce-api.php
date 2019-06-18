@@ -79,6 +79,24 @@ add_action( 'user_register', 'dgc_API_create_user_shortcode', 10, 1 );
 add_action( 'edit_user_profile_update', 'dgc_API_update_user_shortcode');
 add_shortcode( 'dgc-api-test', 'dgc_API_test_shortcode' );
 
+function dgc_API_test_shortcode() {
+	//return dgc_API_retrieve_users_shortcode();
+	//return dgc_migrate_data_shortcode();
+	//return dgc_API_transfer_custodianship_shortcode();
+	return dgc_API_retrieve_records_shortcode();
+	//return dgc_API_delete_record_shortcode();
+	//return dgc_API_update_record_shortcode();
+	//return dgc_API_create_record_shortcode();
+	//return dgc_API_update_user_shortcode();
+	//return dgc_API_create_user_shortcode();
+	//return dgc_API_make_privateKey();
+	//return dgc_API_encryptedKey();
+	//return dgc_API_authorization();
+}
+
+/**
+ * dgc Payment
+ */
 $active_plugins = apply_filters('active_plugins', get_option('active_plugins'));
 if(dgc_payment_is_woocommerce_active()){
 	add_filter('woocommerce_payment_gateways', 'add_dgc_payment_gateway');
@@ -89,7 +107,6 @@ if(dgc_payment_is_woocommerce_active()){
 
 	add_action('plugins_loaded', 'init_dgc_payment_gateway');
 	function init_dgc_payment_gateway(){
-		//require 'class-wc-dgc-payment-gateway.php';
 		require dirname( __FILE__ ) . '/includes/class-wc-dgc-payment-gateway.php';
 	}
 }
@@ -107,6 +124,65 @@ function dgc_payment_is_woocommerce_active()
 
 	return in_array('woocommerce/woocommerce.php', $active_plugins) || array_key_exists('woocommerce/woocommerce.php', $active_plugins);
 }
+
+/**
+ * dgc custom setting
+ */
+add_action('admin_menu', 'setting_page_create');
+function setting_page_create() {
+  add_options_page('dgc_setting', 'dgc', 'manage_options', 'myPlugin', 'setting_option_page');
+}
+
+function setting_option_page() {
+?>
+<div class="wrap">
+<h1>Custom Theme Options Page</h1>
+<form method="post" action="options.php">
+<?php
+//add settings filed with callback display_test_twitter_element.
+add_settings_field('twitter_url', 'Test Twitter Profile Url', 'display_test_twitter_element', 'theme-options', 'first_section');
+register_setting( 'theme-options-grp', 'test_twitter_url');
+// display settings field on theme-option page
+settings_fields("theme-options-grp");
+// display all sections for theme-options page
+do_settings_sections("theme-options");
+submit_button();
+?>
+</form>
+</div>
+<?php
+}
+
+function display_test_twitter_element(){
+//php code to take input from text field for twitter URL.
+?>
+<input type="text" name="test_twitter_url" id="test_twitter_url" value="<?php echo get_option('test_twitter_url'); ?>" />
+<?php
+}
+
+function add_theme_menu_item() {
+add_theme_page("Theme Customization", "Theme Customization", "manage_options", "theme-options", "theme_option_page", null, 99);
+}
+add_action("admin_menu", "add_theme_menu_item");
+
+function theme_section_description(){
+echo '<p>Theme Option Section</p>';
+}
+
+function options_callback(){
+$options = get_option( 'first_field_option' );
+echo '<input name="first_field_option" id="first_field_option" type="checkbox" value="1" class="code" ' . checked( 1, $options, false ) . ' /> Check for enabling custom help text.';
+}
+
+function test_theme_settings(){
+add_option('first_field_option',1);// add theme option to database
+add_settings_section( 'first_section', 'New Theme Options Section',
+'theme_section_description','theme-options');
+add_settings_field('first_field_option','Test Settings Field','options_callback',
+'theme-options','first_section');//add settings field to the “first_section”
+register_setting( 'theme-options-grp', 'first_field_option');
+}
+add_action('admin_init','test_theme_settings');
 
 /*
 add_action('admin_menu', 'awesome_page_create');
@@ -143,21 +219,9 @@ echo '<h1>My Page!!!</h1>';
 	include 'form-file.php';
 }
 
-function dgc_API_test_shortcode() {
-	//return dgc_API_retrieve_users_shortcode();
-	return dgc_migrate_data_shortcode();
-	//return dgc_API_transfer_custodianship_shortcode();
-	//return dgc_API_retrieve_records_shortcode();
-	//return dgc_API_delete_record_shortcode();
-	//return dgc_API_update_record_shortcode();
-	//return dgc_API_create_record_shortcode();
-	//return dgc_API_update_user_shortcode();
-	//return dgc_API_create_user_shortcode();
-	//return dgc_API_make_privateKey();
-	//return dgc_API_encryptedKey();
-	//return dgc_API_authorization();
-}
-
+/**
+ * dgc REST api
+ */
 function dgc_API_retrieve_records_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
