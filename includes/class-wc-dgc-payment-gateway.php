@@ -1,13 +1,28 @@
 <?php 
-
-class WC_Other_Payment_Gateway extends WC_Payment_Gateway{
+/**
+ * Copyright 2019 dgc Corporation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ----------------------------------------------------------------------------
+ */
+class WC_dgc_Payment_Gateway extends WC_Payment_Gateway{
 
     private $order_status;
 
 	public function __construct(){
-		$this->id = 'other_payment';
-		$this->method_title = __('Custom Payment','woocommerce-other-payment-gateway');
-		$this->title = __('Custom Payment','woocommerce-other-payment-gateway');
+		$this->id = 'dgc_payment';
+		$this->method_title = __('dgc Payment','woocommerce-dgc-payment-gateway');
+		$this->title = __('dgc Payment','woocommerce-dgc-payment-gateway');
 		$this->has_fields = true;
 		$this->init_form_fields();
 		$this->init_settings();
@@ -17,47 +32,46 @@ class WC_Other_Payment_Gateway extends WC_Payment_Gateway{
 		$this->hide_text_box = $this->get_option('hide_text_box');
 		$this->order_status = $this->get_option('order_status');
 
-
 		add_action('woocommerce_update_options_payment_gateways_'.$this->id, array($this, 'process_admin_options'));
 	}
 
 	public function init_form_fields(){
-				$this->form_fields = array(
-					'enabled' => array(
-					'title' 		=> __( 'Enable/Disable', 'woocommerce-other-payment-gateway' ),
-					'type' 			=> 'checkbox',
-					'label' 		=> __( 'Enable Custom Payment', 'woocommerce-other-payment-gateway' ),
-					'default' 		=> 'yes'
-					),
-					'title' => array(
-						'title' 		=> __( 'Method Title', 'woocommerce-other-payment-gateway' ),
-						'type' 			=> 'text',
-						'description' 	=> __( 'This controls the title', 'woocommerce-other-payment-gateway' ),
-						'default'		=> __( 'Custom Payment', 'woocommerce-other-payment-gateway' ),
-						'desc_tip'		=> true,
-					),
-					'description' => array(
-						'title' => __( 'Customer Message', 'woocommerce-other-payment-gateway' ),
-						'type' => 'textarea',
-						'css' => 'width:500px;',
-						'default' => 'None of the other payment options are suitable for you? please drop us a note about your favourable payment option and we will contact you as soon as possible.',
-						'description' 	=> __( 'The message which you want it to appear to the customer in the checkout page.', 'woocommerce-other-payment-gateway' ),
-					),
-					'hide_text_box' => array(
-						'title' 		=> __( 'Hide The Payment Field', 'woocommerce-other-payment-gateway' ),
-						'type' 			=> 'checkbox',
-						'label' 		=> __( 'Hide', 'woocommerce-other-payment-gateway' ),
-						'default' 		=> 'no',
-						'description' 	=> __( 'If you do not need to show the text box for customers at all, enable this option.', 'woocommerce-other-payment-gateway' ),
-					),
-					'order_status' => array(
-						'title' => __( 'Order Status After The Checkout', 'woocommerce-other-payment-gateway' ),
-						'type' => 'select',
-						'options' => wc_get_order_statuses(),
-						'default' => 'wc-on-hold',
-						'description' 	=> __( 'The default order status if this gateway used in payment.', 'woocommerce-other-payment-gateway' ),
-					),
-			 );
+		$this->form_fields = array(
+			'enabled' => array(
+			'title' 		=> __( 'Enable/Disable', 'woocommerce-dgc-payment-gateway' ),
+			'type' 			=> 'checkbox',
+			'label' 		=> __( 'Enable dgc Payment', 'woocommerce-dgc-payment-gateway' ),
+			'default' 		=> 'yes'
+			),
+			'title' => array(
+				'title' 		=> __( 'Method Title', 'woocommerce-dgc-payment-gateway' ),
+				'type' 			=> 'text',
+				'description' 	=> __( 'This controls the title', 'woocommerce-dgc-payment-gateway' ),
+				'default'		=> __( 'dgc Payment', 'woocommerce-dgc-payment-gateway' ),
+				'desc_tip'		=> true,
+			),
+			'description' => array(
+				'title' => __( 'Customer Message', 'woocommerce-dgc-payment-gateway' ),
+				'type' => 'textarea',
+				'css' => 'width:500px;',
+				'default' => 'None of the dgc payment options are suitable for you? please drop us a note about your favourable payment option and we will contact you as soon as possible.',
+				'description' 	=> __( 'The message which you want it to appear to the customer in the checkout page.', 'woocommerce-dgc-payment-gateway' ),
+			),
+			'hide_text_box' => array(
+				'title' 		=> __( 'Hide The Payment Field', 'woocommerce-dgc-payment-gateway' ),
+				'type' 			=> 'checkbox',
+				'label' 		=> __( 'Hide', 'woocommerce-dgc-payment-gateway' ),
+				'default' 		=> 'no',
+				'description' 	=> __( 'If you do not need to show the text box for customers at all, enable this option.', 'woocommerce-dgc-payment-gateway' ),
+			),
+			'order_status' => array(
+				'title' => __( 'Order Status After The Checkout', 'woocommerce-dgc-payment-gateway' ),
+				'type' => 'select',
+				'options' => wc_get_order_statuses(),
+				'default' => 'wc-on-hold',
+				'description' 	=> __( 'The default order status if this gateway used in payment.', 'woocommerce-dgc-payment-gateway' ),
+			),
+		);
 	}
 	/**
 	 * Admin Panel Options
@@ -68,7 +82,7 @@ class WC_Other_Payment_Gateway extends WC_Payment_Gateway{
 	 */
 	public function admin_options() {
 		?>
-		<h3><?php _e( 'Custom Payment Settings', 'woocommerce-other-payment-gateway' ); ?></h3>
+		<h3><?php _e( 'dgc Payment Settings', 'woocommerce-dgc-payment-gateway' ); ?></h3>
 			<div id="poststuff">
 				<div id="post-body" class="metabox-holder columns-2">
 					<div id="post-body-content">
@@ -93,7 +107,7 @@ class WC_Other_Payment_Gateway extends WC_Payment_Gateway{
 	                                            <li>» Auto Hassle-Free Updates</li>
 	                                            <li>» High Priority Customer Support</li>
 	                                        </ul>
-											<a href="https://wpruby.com/plugin/woocommerce-custom-payment-gateway-pro/" class="button wpruby_button" target="_blank"><span class="dashicons dashicons-star-filled"></span> Upgrade Now</a> 
+											<a href="https://dgc.com/plugin/woocommerce-dgc-payment-gateway-pro/" class="button dgc_button" target="_blank"><span class="dashicons dashicons-star-filled"></span> Upgrade Now</a> 
 	                                    </div>
 	                                </div>
 	                            </div>
@@ -103,14 +117,14 @@ class WC_Other_Payment_Gateway extends WC_Payment_Gateway{
 	                                <div class="inside">
 	                                    <div class="support-widget">
 	                                        <p>
-	                                        <img style="width: 70%;margin: 0 auto;position: relative;display: inherit;" src="https://wpruby.com/wp-content/uploads/2016/03/wpruby_logo_with_ruby_color-300x88.png">
+	                                        <img style="width: 70%;margin: 0 auto;position: relative;display: inherit;" src="https://dgc.com/wp-content/uploads/2016/03/dgc_logo_with_ruby_color-300x88.png">
 	                                        <br/>
 	                                        Got a Question, Idea, Problem or Praise?</p>
 	                                        <ul>
-												<li>» Please leave us a <a target="_blank" href="https://wordpress.org/support/view/plugin-reviews/woocommerce-other-payment-gateway?filter=5#postform">★★★★★</a> rating.</li>
-	                                            <li>» <a href="https://wpruby.com/submit-ticket/" target="_blank">Support Request</a></li>
-	                                            <li>» <a href="https://wpruby.com/knowledgebase_category/woocommerce-custom-payment-gateway-pro/" target="_blank">Documentation and Common issues.</a></li>
-	                                            <li>» <a href="https://wpruby.com/plugins/" target="_blank">Our Plugins Shop</a></li>
+												<li>» Please leave us a <a target="_blank" href="https://wordpress.org/support/view/plugin-reviews/woocommerce-dgc-payment-gateway?filter=5#postform">★★★★★</a> rating.</li>
+	                                            <li>» <a href="https://dgc.com/submit-ticket/" target="_blank">Support Request</a></li>
+	                                            <li>» <a href="https://dgc.com/knowledgebase_category/woocommerce-dgc-payment-gateway-pro/" target="_blank">Documentation and Common issues.</a></li>
+	                                            <li>» <a href="https://dgc.com/plugins/" target="_blank">Our Plugins Shop</a></li>
 	                                        </ul>
 
 	                                    </div>
@@ -119,13 +133,13 @@ class WC_Other_Payment_Gateway extends WC_Payment_Gateway{
 	                       
 	                            <div class="postbox rss-postbox">
 	    							<div class="handlediv" title="Click to toggle"><br></div>
-	    								<h3 class="hndle"><span><i class="fa fa-wordpress"></i>&nbsp;&nbsp;WPRuby Blog</span></h3>
+	    								<h3 class="hndle"><span><i class="fa fa-wordpress"></i>&nbsp;&nbsp;dgc Blog</span></h3>
 	    								<div class="inside">
 											<div class="rss-widget">
 												<?php
 	    											wp_widget_rss_output(array(
-	    													'url' => 'https://wpruby.com/feed/',
-	    													'title' => 'WPRuby Blog',
+	    													'url' => 'https://dgc.com/feed/',
+	    													'title' => 'dgc Blog',
 	    													'items' => 3,
 	    													'show_summary' => 0,
 	    													'show_author' => 0,
@@ -142,7 +156,7 @@ class WC_Other_Payment_Gateway extends WC_Payment_Gateway{
 				</div>
 				<div class="clear"></div>
 				<style type="text/css">
-				.wpruby_button{
+				.dgc_button{
 					background-color:#4CAF50 !important;
 					border-color:#4CAF50 !important;
 					color:#ffffff !important;
@@ -159,7 +173,7 @@ class WC_Other_Payment_Gateway extends WC_Payment_Gateway{
 		global $woocommerce;
 		$order = new WC_Order( $order_id );
 		// Mark as on-hold (we're awaiting the cheque)
-		$order->update_status($this->order_status, __( 'Awaiting payment', 'woocommerce-other-payment-gateway' ));
+		$order->update_status($this->order_status, __( 'Awaiting payment', 'woocommerce-dgc-payment-gateway' ));
 		// Reduce stock levels
 		wc_reduce_stock_levels( $order_id );
 		if(isset($_POST[ $this->id.'-admin-note']) && trim($_POST[ $this->id.'-admin-note'])!=''){

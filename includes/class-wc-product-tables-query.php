@@ -1,8 +1,19 @@
 <?php
 /**
- * File for WC_Product_Tables_Query.
+ * Copyright 2019 dgc Corporation
  *
- * @package WooCommerceProductTablesFeaturePlugin/Classes
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ----------------------------------------------------------------------------
  */
 
 /**
@@ -89,7 +100,7 @@ class WC_Product_Tables_Query {
 	public function custom_order_by_price_asc_post_clauses( $args ) {
 		global $wpdb;
 
-		$args['join']   .= " INNER JOIN ( SELECT product_id, price+0 as price FROM {$wpdb->prefix}wc_products ) as price_query ON $wpdb->posts.ID = price_query.product_id ";
+		//$args['join']   .= " INNER JOIN ( SELECT product_id, price+0 as price FROM {$wpdb->prefix}wc_products ) as price_query ON $wpdb->posts.ID = price_query.product_id ";
 		$args['orderby'] = " price_query.price ASC, $wpdb->posts.ID ASC ";
 		return $args;
 	}
@@ -106,12 +117,14 @@ class WC_Product_Tables_Query {
 		// For variable products, the price field in `wp_wc_products` stores the minimum price of all variations.
 		// So to order variable products using the maximum price it is necessary to query all of its variations. 
 		// This is done grouping by different fields depending on the post_type.
+/*
 		$args['join'] .= " INNER JOIN (
 			    SELECT product_id, max( price+0 ) as price
 			    FROM {$wpdb->prefix}wc_products, {$wpdb->posts}
 			    WHERE ID = product_id
 			    GROUP BY IF( post_type = 'product_variation', post_parent, product_id )
 		    ) as price_query ON {$wpdb->posts}.ID = price_query.product_id ";
+*/
 		$args['orderby'] = " price_query.price DESC, $wpdb->posts.ID DESC ";
 
 		return $args;
@@ -126,7 +139,7 @@ class WC_Product_Tables_Query {
 	public function custom_order_by_popularity_post_clauses( $args ) {
 		global $wpdb;
 
-		$args['join']   .= " INNER JOIN {$wpdb->prefix}wc_products ON {$wpdb->posts}.ID = {$wpdb->prefix}wc_products.product_id ";
+		//$args['join']   .= " INNER JOIN {$wpdb->prefix}wc_products ON {$wpdb->posts}.ID = {$wpdb->prefix}wc_products.product_id ";
 		//$args['orderby'] = "{$wpdb->prefix}wc_products.total_sales DESC, $wpdb->posts.post_date DESC";
 		$args['orderby'] = "{$wpdb->posts}.post_date DESC";
 
@@ -142,7 +155,7 @@ class WC_Product_Tables_Query {
 	public function custom_order_by_rating_post_clauses( $args ) {
 		global $wpdb;
 
-		$args['join']   .= " INNER JOIN {$wpdb->prefix}wc_products ON {$wpdb->posts}.ID = {$wpdb->prefix}wc_products.product_id ";
+		//$args['join']   .= " INNER JOIN {$wpdb->prefix}wc_products ON {$wpdb->posts}.ID = {$wpdb->prefix}wc_products.product_id ";
 		//$args['orderby'] = "{$wpdb->prefix}wc_products.average_rating DESC, $wpdb->posts.post_date DESC";
 		$args['orderby'] = "{$wpdb->posts}.post_date DESC";
 
@@ -259,9 +272,7 @@ class WC_Product_Tables_Query {
 				}
 			}
 			// dgc-API-call
-			$args['where'] .= "
-				AND ({$wpdb->posts}.ID IN (" . $ids1 . ")
-				OR {$wpdb->posts}.ID IN (" . $ids2 . "))";
+			$args['where'] .= "AND ({$wpdb->posts}.ID IN (" . $ids1 . ") OR {$wpdb->posts}.ID IN (" . $ids2 . "))";
 			// dgc-API-call
 		}
 

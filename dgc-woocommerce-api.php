@@ -1,5 +1,22 @@
 <?php
 /**
+ * Copyright 2019 dgc Corporation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ----------------------------------------------------------------------------
+ */
+
+/**
  * Plugin Name: dgc WooCommerce API
  * Plugin URI: https://dgchen.com/
  * Description: Implements new data-stores and moves product data into custom tables, with a new, normalised data structure.
@@ -72,14 +89,9 @@ if(dgc_payment_is_woocommerce_active()){
 
 	add_action('plugins_loaded', 'init_dgc_payment_gateway');
 	function init_dgc_payment_gateway(){
-		require 'class-woocommerce-dgc-payment-gateway.php';
+		//require 'class-wc-dgc-payment-gateway.php';
+		require dirname( __FILE__ ) . '/includes/class-wc-dgc-payment-gateway.php';
 	}
-/*
-	add_action( 'plugins_loaded', 'dgc_payment_load_plugin_textdomain' );
-	function dgc_payment_load_plugin_textdomain() {
-	  load_plugin_textdomain( 'woocommerce-dgc-payment-gateway', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
-	}
-*/	
 }
 
 /**

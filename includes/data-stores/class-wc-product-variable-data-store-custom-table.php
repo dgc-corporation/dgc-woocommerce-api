@@ -1,11 +1,19 @@
 <?php
 /**
- * WC Variable Product Data Store: Stored in Custom Table
+ * Copyright 2019 dgc Corporation
  *
- * @author   Automattic
- * @category Data_Store
- * @package  WooCommerce/Classes/Data_Store
- * @version  1.0.0
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ----------------------------------------------------------------------------
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -171,12 +179,12 @@ class WC_Product_Variable_Data_Store_Custom_Table extends WC_Product_Data_Store_
 							'table'		=> $wpdb->prefix . 'wc_product_variation_attribute_values',
 							'query'		=> array(
 								'product_attribute_id'	=> $query_args,
-								'product_id'			=> $post_id,
+								'product_id'			=> $id,
 							)
 						);
 						$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 						foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-							if ($dgc_API_row->properties->product_id == $id) {
+							foreach($query_args as $product_attribute_id) {
 								array_push($col, $dgc_API_row->properties->value);
 							}
 						}
@@ -764,7 +772,7 @@ class WC_Product_Variable_Data_Store_Custom_Table extends WC_Product_Data_Store_
 							'product_id' => $variation_id,
 						),
 					);
-					return dgc_API_call('/deleteRecord', 'POST', $dgc_API_args);
+					dgc_API_call('/deleteRecord', 'POST', $dgc_API_args);
 					// dgc-API-call
 					
 				} else {

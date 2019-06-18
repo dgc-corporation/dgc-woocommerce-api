@@ -1,8 +1,19 @@
 <?php
 /**
- * File for the WC_Product_Tables_Backwards_Compatibility class.
+ * Copyright 2019 dgc Corporation
  *
- * @package WooCommerceProductTablesFeaturePlugin/Classes
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ----------------------------------------------------------------------------
  */
 
 /**
@@ -213,6 +224,7 @@ class WC_Product_Tables_Backwards_Compatibility {
 			);
 */
 			// dgc-API-call: /retrieveRecords
+			$col = array();
 			$dgc_API_args = array(
 				'table'		=> $wpdb->prefix . 'wc_products',
 				'query'		=> array(
@@ -220,7 +232,6 @@ class WC_Product_Tables_Backwards_Compatibility {
 				)
 			);
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
-			$col = array();
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
 				foreach($dgc_API_row->properties as $key => $value) {
 					if ($key == $escaped_column) {
@@ -299,13 +310,11 @@ class WC_Product_Tables_Backwards_Compatibility {
 			}
 
 			$dgc_API_res = dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
-			//如何得到上述 dgc_API_call 的回覆值
 			if (json_decode($dgc_API_res['response']['code']) == 200) {
 				$update_success = true; 
 			} else {
 				$update_success = false; 
 			}
-			$update_success = true; 
 			// dgc-API-call			
 
 		} else {
@@ -332,13 +341,11 @@ class WC_Product_Tables_Backwards_Compatibility {
 				),
 			);
 			$dgc_API_res = dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
-			//如何得到上述 dgc_API_call 的回覆值
 			if (json_decode($dgc_API_res['response']['code']) == 200) {
 				$update_success = true; 
 			} else {
 				$update_success = false; 
 			}
-			$update_success = true; 
 			// dgc-API-call			
 		}
 
@@ -385,17 +392,17 @@ class WC_Product_Tables_Backwards_Compatibility {
 			);
 */
 			// dgc-API-call: /retrieveRecords
+			$col = array();
 			$data = array();
 			array_push($data, array());
 			$dgc_API_args = array(
 				'table'		=> $wpdb->prefix . 'wc_product_relationships',
 				'query'		=> array(
 					'product_id'=> $args['product_id'],
-					'type'=> $args['type'],
+					'type'		=> $args['type'],
 				)
 			);
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
-			$col = array();
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
 				foreach($dgc_API_row->properties as $key => $value) {
 					if ($key == 'object_id') {
