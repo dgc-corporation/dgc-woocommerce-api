@@ -20,7 +20,7 @@
  * dgc custom setting
  */
 function setting_page_create() {
-	add_options_page('dgc_setting', 'dgc setting', 'manage_options', 'myPlugin', 'setting_option_page');
+	add_options_page('dgc_setting', 'dgc setting', 'manage_options', 'dgcSetting', 'setting_option_page');
 }
 add_action('admin_menu', 'setting_page_create');
 
@@ -49,20 +49,25 @@ add_action("admin_menu", "add_theme_menu_item");
 
 function dgc_theme_settings(){
 	add_option('first_field_option',1); //Value for this option name.
-	add_option('second_field_option', 'https://api.yourDomainName/v1'); //Value for this option name.
+	$dgc_API_url = 'https://api' . substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.')) . '/v1';
+	add_option('endpoint_field_option', $dgc_API_url); //Value for this option name.
+	global $wpdb;
+	dgc_API_global();
+	add_option('prefix_field_option', $wpdb->prefix); //Value for this option name.
+
 	add_settings_section( 'first_section','dgc-REST-api Setting','first_theme_section_description','theme-options');
 
 	//add settings field to the “first_section”
 	add_settings_field('first_field_option','dgc is the default payment','first_callback','theme-options','first_section');
 	register_setting( 'theme-options-grp','first_field_option');
 		
-	//add settings filed with callback display_test_twitter_element.
-	add_settings_field('second_field_option', 'Set dgc-REST-api endpoint', 'second_callback', 'theme-options', 'first_section');
-	register_setting( 'theme-options-grp', 'second_field_option');
+	//add settings filed with callback.
+	add_settings_field('endpoint_field_option', 'Set dgc-REST-api endpoint', 'endpoint_callback', 'theme-options', 'first_section');
+	register_setting( 'theme-options-grp', 'endpoint_field_option');
 
-	//add settings filed with callback display_test_twitter_element.
-	add_settings_field('third_field_option', 'Set $wpdb->prefix for using', 'third_callback', 'theme-options', 'first_section');
-	register_setting( 'theme-options-grp', 'third_field_option');
+	//add settings filed with callback.
+	add_settings_field('prefix_field_option', 'Set $wpdb->prefix for using', 'prefix_callback', 'theme-options', 'first_section');
+	register_setting( 'theme-options-grp', 'prefix_field_option');
 
 }
 add_action('admin_init','dgc_theme_settings');
@@ -84,22 +89,15 @@ function first_callback(){
 	echo '<input name="first_field_option" id="first_field_option" type="checkbox" value="1" class="code" ' . checked( 1, $options, false ) . ' /> Check for enabling custom help text.';
 }
 
-function second_callback(){
+function endpoint_callback(){
 	//Populate the correct endpoint for the API request
-	global $dgc_API_url;
-	$dgc_API_url = 'https://api' . substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.')) . '/v1';
 	?>
-	<input type="text" name="second_field_option" id="second_field_option" size=50 value="<?php echo $dgc_API_url; ?>" />
+	<input type="text" name="endpoint_field_option" id="endpoint_field_option" size=50 value="<?php echo get_option('endpoint_field_option'); ?>" />
 	<?php
-	$dgc_API_url = $_POST['second_field_option'];
 }
 
-function third_callback(){
-	//php code to take input from text field for twitter URL.
-	global $wpdb;
-	dgc_API_global();
+function prefix_callback(){
 	?>
-	<input type="text" name="third_field_option" id="third_field_option" size=50 value="<?php echo $wpdb->prefix; ?>" />
+	<input type="text" name="prefix_field_option" id="prefix_field_option" size=50 value="<?php echo get_option('prefix_field_option'); ?>" />
 	<?php
-	$wpdb->prefix = $_POST['third_field_option'];
 }

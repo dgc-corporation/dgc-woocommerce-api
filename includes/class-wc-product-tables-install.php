@@ -29,8 +29,15 @@ class WC_Product_Tables_Install {
 	public static function activate() {
 		
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		
 		global $wpdb;
-		dgc_API_global();
+		$wpdb->prefix = get_option('prefix_field_option');
+		if ( isset( $wpdb->prefix ) ) {
+			$wpdb->prefix = get_option('prefix_field_option');
+		} else {
+			dgc_API_global();
+		}
+	
 		//dgc_API_create_user_shortcode();
 		$dgc_API_args = array(
 			'data'		=> array(),
