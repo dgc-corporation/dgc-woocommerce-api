@@ -25,7 +25,7 @@
  * Author: Automattic
  * Author URI: https://dgchen.com
  *
- * Text Domain: dgc-woocommerce-API
+ * Text Domain: dgc-woocommerce-api
  * Domain Path: /languages/
  *
  * @package dgc WooCommerce API
@@ -61,7 +61,6 @@ function wc_custom_product_tables_bootstrap() {
 
 	if ( version_compare( WC_VERSION, '3.5.dev', '<' ) ) {
 		WC_Admin_Notices::add_custom_notice( 'wc_custom_product_tables_need_wc', __( 'You need WooCommerce 3.5 development version or higher to run the Custom Product Tables plugin.', 'woocommerce' ) );
-
 		return;
 	}
 
@@ -117,106 +116,78 @@ if(dgc_payment_is_woocommerce_active()){
 function dgc_payment_is_woocommerce_active()
 {
 	$active_plugins = (array) get_option('active_plugins', array());
-
 	if (is_multisite()) {
 		$active_plugins = array_merge($active_plugins, get_site_option('active_sitewide_plugins', array()));
 	}
-
 	return in_array('woocommerce/woocommerce.php', $active_plugins) || array_key_exists('woocommerce/woocommerce.php', $active_plugins);
 }
 
 /**
  * dgc custom setting
  */
-add_action('admin_menu', 'setting_page_create');
 function setting_page_create() {
-  add_options_page('dgc_setting', 'dgc', 'manage_options', 'myPlugin', 'setting_option_page');
+	add_options_page('dgc_setting', 'dgc', 'manage_options', 'myPlugin', 'setting_option_page');
 }
+add_action('admin_menu', 'setting_page_create');
 
 function setting_option_page() {
 ?>
 <div class="wrap">
-<h1>Custom Theme Options Page</h1>
-<form method="post" action="options.php">
-<?php
-//add settings filed with callback display_test_twitter_element.
-add_settings_field('twitter_url', 'Test Twitter Profile Url', 'display_test_twitter_element', 'theme-options', 'first_section');
-register_setting( 'theme-options-grp', 'test_twitter_url');
-// display settings field on theme-option page
-settings_fields("theme-options-grp");
-// display all sections for theme-options page
-do_settings_sections("theme-options");
-submit_button();
-?>
-</form>
+	<h1>dgc-REST-api Setting Page</h1>
+	<form method="post" action="options.php">
+		<?php
+		// display all sections for theme-options page
+		do_settings_sections("theme-options");
+		// display settings field on theme-option page
+		settings_fields("theme-options-grp");
+
+		//add settings filed with callback display_test_twitter_element.
+		add_settings_field('twitter_url', 'Set dgc-REST-api Url', 'display_test_twitter_element', 'theme-options', 'first_section');
+		register_setting( 'theme-options-grp', 'test_twitter_url');
+
+		submit_button();
+		?>
+	</form>
 </div>
 <?php
 }
 
-function display_test_twitter_element(){
-//php code to take input from text field for twitter URL.
-?>
-<input type="text" name="test_twitter_url" id="test_twitter_url" value="<?php echo get_option('test_twitter_url'); ?>" />
-<?php
-}
-
 function add_theme_menu_item() {
-add_theme_page("Theme Customization", "Theme Customization", "manage_options", "theme-options", "theme_option_page", null, 99);
+	add_theme_page("Theme Customization", "Theme Customization", "manage_options", "theme-options", "theme_option_page", null, 99);
 }
 add_action("admin_menu", "add_theme_menu_item");
 
-function theme_section_description(){
-echo '<p>Theme Option Section</p>';
+function dgc_theme_settings(){
+	add_option('first_field_option',1);// add theme option to database
+	add_settings_section( 'first_section','dgc-REST-api Setting Section','first_theme_section_description','theme-options');
+	add_settings_field('first_field_option','Test Settings Field','options_callback','theme-options','first_section');//add settings field to the “first_section”
+	register_setting( 'theme-options-grp','first_field_option');
+}
+add_action('admin_init','dgc_theme_settings');
+
+function first_theme_section_description(){
+	echo '<p>This section included two parts: 
+	First, you need to cofirm the dgc-REST-api entrypoint of URL. 
+	The default dgc-REST-api URL address is https://api.yourDomainName/v1 if your domain has joined the Blockchain.
+	You could set the https://api.iotcloudengine.com/v1 instead of if your domain did not join the Blockchain.
+	
+	Second, you need to confirm the namespace is the unique for the your further tables using.
+	The recomand namespace is reversed your domain name as the prefix for using.
+	Ideally, the namespace will look like the below com_iotcloudengine_www_tableName
+	</p>';
 }
 
 function options_callback(){
-$options = get_option( 'first_field_option' );
-echo '<input name="first_field_option" id="first_field_option" type="checkbox" value="1" class="code" ' . checked( 1, $options, false ) . ' /> Check for enabling custom help text.';
+	$options = get_option( 'first_field_option' );
+	echo '<input name="first_field_option" id="first_field_option" type="checkbox" value="1" class="code" ' . checked( 1, $options, false ) . ' /> Check for enabling custom help text.';
 }
 
-function test_theme_settings(){
-add_option('first_field_option',1);// add theme option to database
-add_settings_section( 'first_section', 'New Theme Options Section',
-'theme_section_description','theme-options');
-add_settings_field('first_field_option','Test Settings Field','options_callback',
-'theme-options','first_section');//add settings field to the “first_section”
-register_setting( 'theme-options-grp', 'first_field_option');
-}
-add_action('admin_init','test_theme_settings');
-
-/*
-add_action('admin_menu', 'awesome_page_create');
-function awesome_page_create() {
-    add_menu_page( 'dgc-woocommerce-api-setting', 'dgc', 'edit_posts', 'awesome_page', 'my_awesome_page_display', '', 24);
-}
-
-function my_awesome_page_display() {
-echo '<h1>My Page!!!</h1>';
-	if (isset($_POST['awesome_text'])) {
-        $value = $_POST['awesome_text'];
-        update_option('awesome_text', $value);
-    }
-
-    $value = get_option('awesome_text', 'hey-ho');
-
-	include 'form-file.php';
-}
-
-function myplugin_register_settings() {
-   add_option( 'myplugin_option_name', 'This is my option value.');
-   register_setting( 'myplugin_options_group', 'myplugin_option_name', 'myplugin_callback' );
-}
-add_action( 'admin_init', 'myplugin_register_settings' );
-*/
-function myplugin_register_options_page() {
-  add_options_page('dgc-woocommerce-api-setting', 'dgc', 'manage_options', 'myplugin', 'myplugin_options_page');
-}
-add_action('admin_menu', 'myplugin_register_options_page');
-
-function myplugin_option_page() {
-  //content on page goes here
-echo '<h1>My Page!!!</h1>';
-	include 'form-file.php';
+function display_test_twitter_element(){
+	//php code to take input from text field for twitter URL.
+	?>
+	<input type="text" name="test_twitter_url" id="test_twitter_url" value="<?php echo get_option('test_twitter_url'); ?>" />
+	<input type="text" name="test_twitter_url" id="test_twitter_url" value="<?php echo get_option('test_twitter_url'); ?>" />
+	<?php
 }
 
 /**
