@@ -113,7 +113,7 @@ add_shortcode( 'dgc-api-test', 'dgc_API_test_shortcode' );
 
 function dgc_API_test_shortcode() {
 	//return dgc_API_retrieve_users_shortcode();
-	//return dgc_migrate_data_shortcode();
+	return dgc_migrate_data_shortcode();
 	//return dgc_API_transfer_custodianship_shortcode();
 	return dgc_API_retrieve_records_shortcode();
 	//return dgc_API_delete_record_shortcode();
