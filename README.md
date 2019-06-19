@@ -1,4 +1,4 @@
-# dgc WooCommerce api
+# dgc WooCommerce API
 
 This is the development repository for our feature plugin to replace WooCommerce product meta data with custom tables. This feature plugin is currently only available on GitHub, but will move to WordPress.org when more stable.
 

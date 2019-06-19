@@ -31,7 +31,7 @@ class WC_Product_Tables_Install {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		global $wpdb;
 		dgc_API_global();
-		dgc_API_create_user_shortcode();
+		//dgc_API_create_user_shortcode();
 		$dgc_API_args = array(
 			'data'		=> array(),
 		);
