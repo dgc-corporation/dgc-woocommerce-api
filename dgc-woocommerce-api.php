@@ -113,9 +113,9 @@ add_shortcode( 'dgc-api-test', 'dgc_API_test_shortcode' );
 
 function dgc_API_test_shortcode() {
 	//return dgc_API_retrieve_users_shortcode();
-	return dgc_migrate_data_shortcode();
-	//return dgc_API_transfer_custodianship_shortcode();
-	return dgc_API_retrieve_records_shortcode();
+	//return dgc_migrate_data_shortcode();
+	return dgc_API_transfer_custodianship_shortcode();
+	//return dgc_API_retrieve_records_shortcode();
 	//return dgc_API_delete_record_shortcode();
 	//return dgc_API_update_record_shortcode();
 	//return dgc_API_create_record_shortcode();
@@ -124,6 +124,19 @@ function dgc_API_test_shortcode() {
 	//return dgc_API_make_privateKey();
 	//return dgc_API_encryptedKey();
 	//return dgc_API_authorization();
+}
+
+function dgc_API_transfer_custodianship_shortcode() {
+	global $wpdb;
+	$dgc_API_args = array(
+		'table'		=> $wpdb->prefix . 'wc_products',
+		'query'		=> array(
+			'product_id'=> 1558944044,
+		),
+		'publicKey'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
+	);
+	$dgc_API_res = dgc_API_call('/transferCustodianship', 'POST', $dgc_API_args);
+	return json_encode($dgc_API_res);
 }
 
 function dgc_API_retrieve_records_shortcode() {
@@ -284,19 +297,6 @@ function dgc_API_create_user_shortcode() {
 		);
 		$dgc_API_res = dgc_API_call('/createUser', 'POST', $dgc_API_args);
 	}
-	return json_encode($dgc_API_res);
-}
-
-function dgc_API_transfer_custodianship_shortcode() {
-	global $wpdb;
-	$dgc_API_args = array(
-		'table'		=> $wpdb->prefix . 'wc_products',
-		'query'		=> array(
-			'product_id'=> 1558944044,
-		),
-		'publicKey'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
-	);
-	$dgc_API_res = dgc_API_call('/transferCustodianship', 'POST', $dgc_API_args);
 	return json_encode($dgc_API_res);
 }
 
