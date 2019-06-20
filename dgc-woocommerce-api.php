@@ -171,7 +171,7 @@ function dgc_API_delete_record_shortcode() {
 			'product_id'=> 1560580842,
 		),
 	);
-	$dgc_API_res = dgc_API_call('/deleteRecord', 'POST', $dgc_API_args);
+	$dgc_API_res = dgc_API_call('/deleteRecords', 'POST', $dgc_API_args);
 	return json_encode($dgc_API_res);
 }
 
@@ -187,7 +187,7 @@ function dgc_API_update_record_shortcode() {
 			'type'		=> 'iPhoneX',
 		)
 	);
-	$dgc_API_res = dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+	$dgc_API_res = dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 	return json_encode($dgc_API_res);
 }
 

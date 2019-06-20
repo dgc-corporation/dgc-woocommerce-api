@@ -637,7 +637,7 @@ class WC_Product_Variable_Data_Store_Custom_Table extends WC_Product_Data_Store_
 						$status
 					)
 */					
-				// dgc-API-call: /updateRecord
+				// dgc-API-call: /updateRecords
 				$changed = false;
 				foreach(array_map( 'absint', $children ) as $id){		
 					$dgc_API_args = array(
@@ -649,7 +649,7 @@ class WC_Product_Variable_Data_Store_Custom_Table extends WC_Product_Data_Store_
 							'stock_status' => $status,
 						),
 					);
-					dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+					dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 					$changed = true;
 				}
 				// dgc-API-call
@@ -702,7 +702,7 @@ class WC_Product_Variable_Data_Store_Custom_Table extends WC_Product_Data_Store_
 				)
 			);
 */			
-			// dgc-API-call: /updateRecord
+			// dgc-API-call: /updateRecords
 			$dgc_API_args = array(
 				'table'	=> $wpdb->prefix . 'wc_products',
 				'query'	=> array(
@@ -712,7 +712,7 @@ class WC_Product_Variable_Data_Store_Custom_Table extends WC_Product_Data_Store_
 					'price' => wc_format_decimal( $min_price ),
 				),
 			);
-			dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+			dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 			// dgc-API-call			
 		}
 	}
@@ -765,14 +765,14 @@ class WC_Product_Variable_Data_Store_Custom_Table extends WC_Product_Data_Store_
 				if ( $force_delete ) {
 					wp_delete_post( $variation_id, true );
 					//$wpdb->delete( "{$wpdb->prefix}wc_products", array( 'product_id' => $variation_id ), array( '%d' ) );
-					// dgc-API-call: /deleteRecord
+					// dgc-API-call: /deleteRecords
 					$dgc_API_args = array(
 						'table'		=> $wpdb->prefix . 'wc_products',
 						'query'		=> array(
 							'product_id' => $variation_id,
 						),
 					);
-					dgc_API_call('/deleteRecord', 'POST', $dgc_API_args);
+					dgc_API_call('/deleteRecords', 'POST', $dgc_API_args);
 					// dgc-API-call
 					
 				} else {

@@ -295,7 +295,7 @@ class WC_Product_Tables_Backwards_Compatibility {
 
 			$update_success = (bool) $wpdb->query( $query ); // WPCS: unprepared SQL ok.
 */
-			// dgc-API-call: /updateRecord
+			// dgc-API-call: /updateRecords
 			$dgc_API_args = array(
 				'table'		=> $wpdb->prefix . 'wc_products',
 				'query'		=> array(
@@ -309,7 +309,7 @@ class WC_Product_Tables_Backwards_Compatibility {
 				$dgc_API_args['query'] = array();
 			}
 
-			$dgc_API_res = dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+			$dgc_API_res = dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 			if (json_decode($dgc_API_res['response']['code']) == 200) {
 				$update_success = true; 
 			} else {
@@ -332,7 +332,7 @@ class WC_Product_Tables_Backwards_Compatibility {
 				$format
 			); // WPCS: db call ok, cache ok.
 */			
-			// dgc-API-call: /updateRecord
+			// dgc-API-call: /updateRecords
 			$dgc_API_args = array(
 				'table'		=> $wpdb->prefix . 'wc_products',
 				'query'		=> $where,
@@ -340,7 +340,7 @@ class WC_Product_Tables_Backwards_Compatibility {
 					$args['column'] => $args['value'],
 				),
 			);
-			$dgc_API_res = dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+			$dgc_API_res = dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 			if (json_decode($dgc_API_res['response']['code']) == 200) {
 				$update_success = true; 
 			} else {
@@ -482,7 +482,7 @@ class WC_Product_Tables_Backwards_Compatibility {
 				)
 			); // WPCS: db call ok, cache ok.
 */
-			// dgc-API-call: /deleteRecord
+			// dgc-API-call: /deleteRecords
 			$dgc_API_args = array(
 				'table'		=> $wpdb->prefix . 'wc_product_relationships',
 				'query'		=> array(
@@ -490,7 +490,7 @@ class WC_Product_Tables_Backwards_Compatibility {
 					'product_id' => $args['product_id'],
 				),
 			);
-			dgc_API_call('/deleteRecord', 'POST', $dgc_API_args);
+			dgc_API_call('/deleteRecords', 'POST', $dgc_API_args);
 			// dgc-API-call
 		}
 
@@ -807,14 +807,14 @@ class WC_Product_Tables_Backwards_Compatibility {
 				)
 			); // WPCS: db call ok, cache ok.
 */
-			// dgc-API-call: /deleteRecord
+			// dgc-API-call: /deleteRecords
 			$dgc_API_args = array(
 				'table'		=> $wpdb->prefix . 'wc_product_downloads',
 				'query'		=> array(
 					'download_id' => $download_id,
 				),
 			);
-			dgc_API_call('/deleteRecord', 'POST', $dgc_API_args);
+			dgc_API_call('/deleteRecords', 'POST', $dgc_API_args);
 			// dgc-API-call
 		}
 

@@ -485,7 +485,7 @@ class WC_Product_Variation_Data_Store_Custom_Table extends WC_Product_Data_Store
 				)
 			); // WPCS: db call ok, cache ok.
 */
-			// dgc-API-call: /updateRecord
+			// dgc-API-call: /updateRecords
 			$dgc_API_args = array(
 				'table'	=> $wpdb->prefix . 'wc_products',
 				'query'	=> array(
@@ -493,7 +493,7 @@ class WC_Product_Variation_Data_Store_Custom_Table extends WC_Product_Data_Store
 				),
 				'data'	=> $data,
 			);
-			dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+			dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 			// dgc-API-call				
 		}
 
@@ -716,7 +716,7 @@ class WC_Product_Variation_Data_Store_Custom_Table extends WC_Product_Data_Store
 							)
 						); // WPCS: db call ok, cache ok.
 */						
-						// dgc-API-call: /updateRecord
+						// dgc-API-call: /updateRecords
 						$dgc_API_args = array(
 							'table'	=> $wpdb->prefix . 'wc_product_variation_attribute_values',
 							'query'	=> array(
@@ -727,7 +727,7 @@ class WC_Product_Variation_Data_Store_Custom_Table extends WC_Product_Data_Store
 								'value' => $attribute_value,
 							),
 						);
-						dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+						dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 						// dgc-API-call
 
 					} else {
@@ -762,7 +762,7 @@ class WC_Product_Variation_Data_Store_Custom_Table extends WC_Product_Data_Store
 				if ( $attributes_to_delete ) {
 					//$wpdb->query( "DELETE FROM {$wpdb->prefix}wc_product_variation_attribute_values WHERE product_id = " . absint( $product->get_id() ) . ' AND product_attribute_id IN (' . implode( ',', array_map( 'esc_sql', $attributes_to_delete ) ) . ')' ); // WPCS: db call ok, cache ok, unprepared SQL ok.
 
-					// dgc-API-call: /deleteRecord
+					// dgc-API-call: /deleteRecords
 					foreach ($attributes_to_delete as $id) {
 						$dgc_API_args = array(
 							'table'		=> $wpdb->prefix . 'wc_product_variation_attribute_values',
@@ -771,7 +771,7 @@ class WC_Product_Variation_Data_Store_Custom_Table extends WC_Product_Data_Store
 								'product_attribute_id'  => $id,
 							),
 						);
-						dgc_API_call('/deleteRecord', 'POST', $dgc_API_args);
+						dgc_API_call('/deleteRecords', 'POST', $dgc_API_args);
 					}
 					// dgc-API-call
 				}
