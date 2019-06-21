@@ -137,13 +137,13 @@ function dgc_API_custodianship_transfer_shortcode() {
 	return json_encode($dgc_API_res);
 }
 
-function dgc_API_dgcBalance_transfer_shortcode() {
+function dgc_API_dgCoinBalance_transfer_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
 		'receivingAgent'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
-		'dgcTransfer'		=> 100,
+		'dgCoinTransfer'	=> 100,
 	);
-	$dgc_API_res = dgc_API_call('/dgcBalanceTransfer', 'POST', $dgc_API_args);
+	$dgc_API_res = dgc_API_call('/dgCoinBalanceTransfer', 'POST', $dgc_API_args);
 	return json_encode($dgc_API_res);
 }
 
