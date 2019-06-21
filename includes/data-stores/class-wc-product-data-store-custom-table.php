@@ -109,7 +109,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 				)
 			); // WPCS: db call ok, cache ok.
 */			
-			// dgc-API-call: /deleteRecord
+			// dgc-API-call: /deleteRecords
 			$dgc_API_args = array(
 				'table'		=> $wpdb->prefix . 'wc_product_relationships',
 				'query'		=> array(
@@ -117,7 +117,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 					'product_id' => $product->get_id(),
 				),
 			);
-			return dgc_API_call('/deleteRecord', 'POST', $dgc_API_args);
+			return dgc_API_call('/deleteRecords', 'POST', $dgc_API_args);
 			// dgc-API-call
 		}
 
@@ -256,7 +256,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 				)
 			); // WPCS: db call ok, cache ok.
 */
-			// dgc-API-call: /updateRecord
+			// dgc-API-call: /updateRecords
 			$dgc_API_args = array(
 				'table'	=> $wpdb->prefix . 'wc_products',
 				'query'	=> array(
@@ -264,7 +264,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 				),
 				'data'	=> $data,
 			);
-			dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+			dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 			// dgc-API-call				
 		}
 
@@ -666,58 +666,58 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 
 		if ( $args['force_delete'] ) {
 			//$wpdb->delete( "{$wpdb->prefix}wc_products", array( 'product_id' => $id ), array( '%d' ) ); // WPCS: db call ok, cache ok.
-			// dgc-API-call: /deleteRecord
+			// dgc-API-call: /deleteRecords
 			$dgc_API_args = array(
 				'table'		=> $wpdb->prefix . 'wc_products',
 				'query'		=> array(
 					'product_id' => $id,
 				),
 			);
-			dgc_API_call('/deleteRecord', 'POST', $dgc_API_args);
+			dgc_API_call('/deleteRecords', 'POST', $dgc_API_args);
 			// dgc-API-call
 
 			//$wpdb->delete( "{$wpdb->prefix}wc_product_relationships", array( 'product_id' => $id ), array( '%d' ) ); // WPCS: db call ok, cache ok.
-			// dgc-API-call: /deleteRecord
+			// dgc-API-call: /deleteRecords
 			$dgc_API_args = array(
 				'table'		=> $wpdb->prefix . 'wc_product_relationships',
 				'query'		=> array(
 					'product_id' => $id,
 				),
 			);
-			dgc_API_call('/deleteRecord', 'POST', $dgc_API_args);
+			dgc_API_call('/deleteRecords', 'POST', $dgc_API_args);
 			// dgc-API-call
 			
 			//$wpdb->delete( "{$wpdb->prefix}wc_product_downloads", array( 'product_id' => $id ), array( '%d' ) ); // WPCS: db call ok, cache ok.
-			// dgc-API-call: /deleteRecord
+			// dgc-API-call: /deleteRecords
 			$dgc_API_args = array(
 				'table'		=> $wpdb->prefix . 'wc_product_downloads',
 				'query'		=> array(
 					'product_id' => $id,
 				),
 			);
-			dgc_API_call('/deleteRecord', 'POST', $dgc_API_args);
+			dgc_API_call('/deleteRecords', 'POST', $dgc_API_args);
 			// dgc-API-call
 			
 			//$wpdb->delete( "{$wpdb->prefix}wc_product_variation_attribute_values", array( 'product_id' => $id ), array( '%d' ) ); // WPCS: db call ok, cache ok.
-			// dgc-API-call: /deleteRecord
+			// dgc-API-call: /deleteRecords
 			$dgc_API_args = array(
 				'table'		=> $wpdb->prefix . 'wc_product_variation_attribute_values',
 				'query'		=> array(
 					'product_id' => $id,
 				),
 			);
-			dgc_API_call('/deleteRecord', 'POST', $dgc_API_args);
+			dgc_API_call('/deleteRecords', 'POST', $dgc_API_args);
 			// dgc-API-call
 			
 			//$wpdb->delete( "{$wpdb->prefix}wc_product_attribute_values", array( 'product_id' => $id ), array( '%d' ) ); // WPCS: db call ok, cache ok.
-			// dgc-API-call: /deleteRecord
+			// dgc-API-call: /deleteRecords
 			$dgc_API_args = array(
 				'table'		=> $wpdb->prefix . 'wc_product_attribute_values',
 				'query'		=> array(
 					'product_id' => $id,
 				),
 			);
-			dgc_API_call('/deleteRecord', 'POST', $dgc_API_args);
+			dgc_API_call('/deleteRecords', 'POST', $dgc_API_args);
 			// dgc-API-call
 			
 			wp_delete_post( $id );
@@ -842,7 +842,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 					)
 				); // WPCS: db call ok, cache ok.
 */				
-				// dgc-API-call: /updateRecord
+				// dgc-API-call: /updateRecords
 				$dgc_API_args = array(
 					'table'	=> $wpdb->prefix . 'wc_products',
 					'query'	=> array(
@@ -852,7 +852,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 						'sale_price' => null,
 					),
 				);
-				dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+				dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 				// dgc-API-call
 				
 				$product->set_sale_price( '' );
@@ -871,7 +871,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 					)
 				); // WPCS: db call ok, cache ok.
 */				
-				// dgc-API-call: /updateRecord
+				// dgc-API-call: /updateRecords
 				$dgc_API_args = array(
 					'table'	=> $wpdb->prefix . 'wc_products',
 					'query'	=> array(
@@ -881,7 +881,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 						'price' => $product->get_sale_price( 'edit' ),
 					),
 				);
-				dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+				dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 				// dgc-API-call
 
 				$product->set_price( $product->get_sale_price( 'edit' ) );
@@ -897,7 +897,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 					)
 				); // WPCS: db call ok, cache ok.
 */				
-				// dgc-API-call: /updateRecord
+				// dgc-API-call: /updateRecords
 				$dgc_API_args = array(
 					'table'	=> $wpdb->prefix . 'wc_products',
 					'query'	=> array(
@@ -907,7 +907,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 						'price' => $product->get_regular_price( 'edit' ),
 					),
 				);
-				dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+				dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 				// dgc-API-call
 
 				$product->set_price( $product->get_regular_price( 'edit' ) );
@@ -1390,7 +1390,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 				);
 				$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 				foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-					// dgc-API-call: /updateRecord
+					// dgc-API-call: /updateRecords
 					$dgc_API_args = array(
 						'table'	=> $wpdb->prefix . 'wc_products',
 						'query'	=> array(
@@ -1400,7 +1400,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 							'stock_quantity' => ($dgc_API_row->properties->stock_quantity + $stock_quantity),
 						),
 					);
-					dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+					dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 					// dgc-API-call				
 				}
 				// dgc-API-call
@@ -1416,7 +1416,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 				);
 				$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 				foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-					// dgc-API-call: /updateRecord
+					// dgc-API-call: /updateRecords
 					$dgc_API_args = array(
 						'table'	=> $wpdb->prefix . 'wc_products',
 						'query'	=> array(
@@ -1426,14 +1426,14 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 							'stock_quantity' => ($dgc_API_row->properties->stock_quantity - $stock_quantity),
 						),
 					);
-					dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+					dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 					// dgc-API-call				
 				}
 				// dgc-API-call
 				break;
 			default:
 				//$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wc_products SET stock_quantity = %f WHERE product_id = %d;", $stock_quantity, $product_id_with_stock ) ); // WPCS: db call ok, cache ok.
-				// dgc-API-call: /updateRecord
+				// dgc-API-call: /updateRecords
 				$dgc_API_args = array(
 					'table'		=> $wpdb->prefix . 'wc_products',
 					'query'		=> array(
@@ -1443,7 +1443,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 						'stock_quantity' => $stock_quantity,
 					),
 				);
-				dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+				dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 				// dgc-API-call				
 				break;
 		}
@@ -1474,7 +1474,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 				);
 				$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 				foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-					// dgc-API-call: /updateRecord
+					// dgc-API-call: /updateRecords
 					$dgc_API_args = array(
 						'table'	=> $wpdb->prefix . 'wc_products',
 						'query'	=> array(
@@ -1484,7 +1484,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 							'total_sales' => ($dgc_API_row->properties->total_sales + $quantity),
 						),
 					);
-					dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+					dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 					// dgc-API-call				
 				}
 				// dgc-API-call
@@ -1500,7 +1500,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 				);
 				$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 				foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-					// dgc-API-call: /updateRecord
+					// dgc-API-call: /updateRecords
 					$dgc_API_args = array(
 						'table'	=> $wpdb->prefix . 'wc_products',
 						'query'	=> array(
@@ -1510,14 +1510,14 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 							'total_sales' => ($dgc_API_row->properties->total_sales - $quantity),
 						),
 					);
-					dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+					dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 					// dgc-API-call				
 				}
 				// dgc-API-call
 				break;
 			default:
 				//$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wc_products SET total_sales = %f WHERE product_id = %d;", $quantity, $product_id ) ); // WPCS: db call ok, cache ok.
-				// dgc-API-call: /updateRecord
+				// dgc-API-call: /updateRecords
 				$dgc_API_args = array(
 					'table'	=> $wpdb->prefix . 'wc_products',
 					'query'	=> array(
@@ -1527,7 +1527,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 						'total_sales' => $quantity,
 					),
 				);
-				dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+				dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 				// dgc-API-call
 				break;
 		}
@@ -1543,7 +1543,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 	public function update_average_rating( $product ) {
 		global $wpdb;
 		//$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}wc_products SET average_rating = %f WHERE product_id = %d;", $product->get_average_rating( 'edit' ), $product->get_id() ) ); // WPCS: db call ok, cache ok.
-		// dgc-API-call: /updateRecord
+		// dgc-API-call: /updateRecords
 		$dgc_API_args = array(
 			'table'	=> $wpdb->prefix . 'wc_products',
 			'query'	=> array(
@@ -1553,7 +1553,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 				'average_rating' => $product->get_average_rating( 'edit' ),
 			),
 		);
-		dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+		dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 		// dgc-API-call
 		self::update_visibility( $product, true );
 		wp_cache_delete( 'woocommerce_product_' . $product->get_id(), 'product' );
@@ -1699,7 +1699,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 				$missing = array_diff( $existing_downloads, $updated );
 				if ( $missing ) {
 					//$wpdb->query( "DELETE FROM {$wpdb->prefix}wc_product_downloads WHERE `download_id` IN ( '" . implode( "','", $missing ) . "' )" ); // WPCS: db call ok, cache ok, unprepared SQL ok.
-					// dgc-API-call /deleteRecord
+					// dgc-API-call /deleteRecords
 					foreach($mission as $id){
 						$dgc_API_args = array(
 							'table'		=> $wpdb->prefix . 'wc_product_downloads',
@@ -1707,21 +1707,21 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 								'download_id' => $id,
 							),
 						);
-						return dgc_API_call('/deleteRecord', 'POST', $dgc_API_args);						
+						return dgc_API_call('/deleteRecords', 'POST', $dgc_API_args);						
 					}
 					// dgc-API-call
 				}
 			} else {
 				//$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}wc_product_downloads WHERE `product_id` = %d", $product->get_id() ) ); // WPCS: db call ok, cache ok.
 
-				// dgc-API-call /deleteRecord
+				// dgc-API-call /deleteRecords
 				$dgc_API_args = array(
 					'table'		=> $wpdb->prefix . 'wc_product_downloads',
 					'query'		=> array(
 						'product_id' => $product->get_id(),
 					),
 				);
-				return dgc_API_call('/deleteRecord', 'POST', $dgc_API_args);
+				return dgc_API_call('/deleteRecords', 'POST', $dgc_API_args);
 				// dgc-API-call
 			}
 
@@ -2033,7 +2033,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 							)
 						); // WPCS: db call ok, cache ok.
 */						
-						// dgc-API-call: /updateRecord
+						// dgc-API-call: /updateRecords
 						$dgc_API_args = array(
 							'table'	=> $wpdb->prefix . 'wc_product_attributes',
 							'query'	=> array(
@@ -2041,7 +2041,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 							),
 							'data'	=> $attribute_data,
 						);
-						dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+						dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 						// dgc-API-call
 					} else {
 /*
@@ -2103,7 +2103,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 
 					if ( $attributes_values_to_delete ) {
 						//$wpdb->query( "DELETE FROM {$wpdb->prefix}wc_product_attribute_values WHERE attribute_value_id IN (" . implode( ',', array_map( 'esc_sql', array_keys( $attributes_values_to_delete ) ) ) . ')' ); // WPCS: db call ok, cache ok, unprepared SQL ok.
-						// dgc-API-call /deleteRecord
+						// dgc-API-call /deleteRecords
 						foreach( $attributes_values_to_delete as $attribute_value_id) {
 							$dgc_API_args = array(
 								'table'		=> $wpdb->prefix . 'wc_product_attribute_values',
@@ -2111,7 +2111,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 									'attribute_value_id' => $attribute_value_id,
 								),
 							);
-							dgc_API_call('/deleteRecord', 'POST', $dgc_API_args);							
+							dgc_API_call('/deleteRecords', 'POST', $dgc_API_args);							
 						}
 						// dgc-API-call
 					}
@@ -2149,7 +2149,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 								)
 							); // WPCS: db call ok, cache ok.
 */							
-							// dgc-API-call: /updateRecord
+							// dgc-API-call: /updateRecords
 							$dgc_API_args = array(
 								'table'	=> $wpdb->prefix . 'wc_product_attribute_values',
 								'query'	=> array(
@@ -2157,7 +2157,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 								),
 								'data'	=> $attribute_value_data,
 							);
-							dgc_API_call('/updateRecord', 'POST', $dgc_API_args);
+							dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 							// dgc-API-call
 							
 						} else {
@@ -2197,7 +2197,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 
 			if ( $attributes_to_delete ) {
 				//$wpdb->query( "DELETE FROM {$wpdb->prefix}wc_product_attributes WHERE product_attribute_id IN (" . implode( ',', array_map( 'esc_sql', array_keys( $attributes_to_delete ) ) ) . ')' ); // WPCS: db call ok, cache ok, unprepared SQL ok.
-				// dgc-API-call /deleteRecord
+				// dgc-API-call /deleteRecords
 				foreach( $attributes_to_delete as $product_attribute_id) {
 					$dgc_API_args = array(
 						'table'		=> $wpdb->prefix . 'wc_product_attributes',
@@ -2205,7 +2205,7 @@ class WC_Product_Data_Store_Custom_Table extends WC_Data_Store_WP implements WC_
 							'product_attribute_id' => $product_attribute_id,
 						),
 					);
-					dgc_API_call('/deleteRecord', 'POST', $dgc_API_args);							
+					dgc_API_call('/deleteRecords', 'POST', $dgc_API_args);							
 				}
 				// dgc-API-call
 
