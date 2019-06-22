@@ -126,14 +126,24 @@ function dgc_API_test_shortcode() {
 	//return dgc_API_authorization();
 }
 
-function dgc_API_custodianship_transfer_shortcode() {
+function dgc_API_dgCoin_exchange_proposal_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
-		'table'		=> $wpdb->prefix . 'wc_products',
-		'query'		=> array(),
 		'receivingAgent'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
+		'dgCoinExchange'	=> 100,
 	);
-	$dgc_API_res = dgc_API_call('/custodianshipTransfer', 'POST', $dgc_API_args);
+	$dgc_API_res = dgc_API_call('/dgCoinExchangeProposal', 'POST', $dgc_API_args);
+	return json_encode($dgc_API_res);
+}
+
+function dgc_API_dgCoin_exchange_answer_shortcode() {
+	global $wpdb;
+	$dgc_API_args = array(
+		'receivingAgent'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
+		'dgCoinExchange'	=> 100,
+		'status'			=> 'ACCEPTED', //ACCEPTED, REJECTED, CANCELED
+	);
+	$dgc_API_res = dgc_API_call('/dgCoinExchangeProposal', 'POST', $dgc_API_args);
 	return json_encode($dgc_API_res);
 }
 
@@ -155,6 +165,17 @@ function dgc_API_dgCoin_transfer_answer_shortcode() {
 		'status'			=> 'ACCEPTED', //ACCEPTED, REJECTED, CANCELED
 	);
 	$dgc_API_res = dgc_API_call('/dgCoinTransferProposal', 'POST', $dgc_API_args);
+	return json_encode($dgc_API_res);
+}
+
+function dgc_API_custodianship_transfer_shortcode() {
+	global $wpdb;
+	$dgc_API_args = array(
+		'table'		=> $wpdb->prefix . 'wc_products',
+		'query'		=> array(),
+		'receivingAgent'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
+	);
+	$dgc_API_res = dgc_API_call('/custodianshipTransfer', 'POST', $dgc_API_args);
 	return json_encode($dgc_API_res);
 }
 
