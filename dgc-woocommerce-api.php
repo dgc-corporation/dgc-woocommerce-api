@@ -129,7 +129,7 @@ function dgc_API_test_shortcode() {
 function dgc_API_dgCoin_exchange_proposal_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
-		'receivingAgent'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
+		'receivingParticipant'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
 		'dgCoinExchange'	=> 100,
 	);
 	$dgc_API_res = dgc_API_call('/dgCoinExchangeProposal', 'POST', $dgc_API_args);
@@ -139,7 +139,7 @@ function dgc_API_dgCoin_exchange_proposal_shortcode() {
 function dgc_API_dgCoin_exchange_answer_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
-		'receivingAgent'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
+		'receivingParticipant'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
 		'dgCoinExchange'	=> 100,
 		'status'			=> 'ACCEPTED', //ACCEPTED, REJECTED, CANCELED
 	);
@@ -150,7 +150,7 @@ function dgc_API_dgCoin_exchange_answer_shortcode() {
 function dgc_API_dgCoin_transfer_proposal_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
-		'receivingAgent'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
+		'receivingParticipant'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
 		'dgCoinTransfer'	=> 100,
 	);
 	$dgc_API_res = dgc_API_call('/dgCoinTransferProposal', 'POST', $dgc_API_args);
@@ -160,7 +160,7 @@ function dgc_API_dgCoin_transfer_proposal_shortcode() {
 function dgc_API_dgCoin_transfer_answer_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
-		'receivingAgent'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
+		'receivingParticipant'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
 		'dgCoinTransfer'	=> 100,
 		'status'			=> 'ACCEPTED', //ACCEPTED, REJECTED, CANCELED
 	);
@@ -173,7 +173,7 @@ function dgc_API_custodianship_transfer_shortcode() {
 	$dgc_API_args = array(
 		'table'		=> $wpdb->prefix . 'wc_products',
 		'query'		=> array(),
-		'receivingAgent'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
+		'receivingParticipant'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
 	);
 	$dgc_API_res = dgc_API_call('/custodianshipTransfer', 'POST', $dgc_API_args);
 	return json_encode($dgc_API_res);
@@ -264,7 +264,7 @@ function dgc_migrate_data_shortcode() {
 	return 'migrate is done!<br> $products = ' . json_encode($products) . '<br> $variations = ' . json_encode($variations);
 }
 
-function dgc_API_update_user_shortcode() {
+function dgc_API_update_participant_shortcode() {
 	/**
 	 * check the keys such like email for query if it is NOT existed in users then create a new user
 	 */
@@ -274,7 +274,7 @@ function dgc_API_update_user_shortcode() {
 			'email'			=> get_userdata(get_current_user_id())->user_email,
 		)
 	);
-	$dgc_API_res = dgc_API_call('/retrieveUsers', 'POST', $dgc_API_args);
+	$dgc_API_res = dgc_API_call('/retrieveParticipants', 'POST', $dgc_API_args);
 	if (json_decode($dgc_API_res['body']) == []){		
 		dgc_API_make_privateKey();
 	}
@@ -297,18 +297,18 @@ function dgc_API_update_user_shortcode() {
 	return json_encode($dgc_API_res);
 }
 
-function dgc_API_retrieve_users_shortcode() {
+function dgc_API_retrieve_participants_shortcode() {
 	$dgc_API_args = array(
 		'query'	=> array(
 			'email'			=> get_userdata(get_current_user_id())->user_email,
 		)
 	);
-	$dgc_API_res = dgc_API_call('/retrieveUsers', 'POST', $dgc_API_args);
+	$dgc_API_res = dgc_API_call('/retrieveParticipants', 'POST', $dgc_API_args);
 	return $dgc_API_res['body'];
 	return json_decode($dgc_API_res['body']);
 }
 
-function dgc_API_create_user_shortcode() {
+function dgc_API_create_participant_shortcode() {
 	/**
 	 * check the keys such like email for query if it is NOT existed in users then create a new user
 	 */
@@ -318,7 +318,7 @@ function dgc_API_create_user_shortcode() {
 			'email'			=> get_userdata(get_current_user_id())->user_email,
 		)
 	);
-	$dgc_API_res = dgc_API_call('/retrieveUsers', 'POST', $dgc_API_args);
+	$dgc_API_res = dgc_API_call('/retrieveParticipants', 'POST', $dgc_API_args);
 	if (json_decode($dgc_API_res['body']) == []){		
 		dgc_API_make_privateKey();
 		dgc_API_encryptedKey();
@@ -335,7 +335,7 @@ function dgc_API_create_user_shortcode() {
 				'hashedPassword'=> get_userdata(get_current_user_id())->user_pass,
 			)
 		);
-		$dgc_API_res = dgc_API_call('/createUser', 'POST', $dgc_API_args);
+		$dgc_API_res = dgc_API_call('/createParticipant', 'POST', $dgc_API_args);
 	}
 	return json_encode($dgc_API_res);
 }
