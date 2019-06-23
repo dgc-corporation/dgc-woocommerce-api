@@ -57,8 +57,8 @@ add_action( 'plugins_loaded', 'wc_custom_product_tables_bootstrap' );
  * dgc API call
  */
 add_action( 'plugins_loaded', 'dgc_API_global' );
-add_action( 'user_register', 'dgc_API_create_user_shortcode', 10, 1 );
-add_action( 'edit_user_profile_update', 'dgc_API_update_user_shortcode');
+add_action( 'user_register', 'dgc_API_create_participant_shortcode', 10, 1 );
+add_action( 'edit_user_profile_update', 'dgc_API_update_participant_shortcode');
 
 /**
  * dgc Payment
@@ -95,18 +95,18 @@ function dgc_payment_is_woocommerce_active()
 add_shortcode( 'dgc-api-test', 'dgc_API_test_shortcode' );
 
 function dgc_API_test_shortcode() {
-	//return dgc_API_retrieve_users_shortcode();
-	//return dgc_migrate_data_shortcode();
-	return dgc_API_custodianship_transfer_shortcode();
-	//return dgc_API_retrieve_records_shortcode();
-	//return dgc_API_delete_record_shortcode();
-	//return dgc_API_update_record_shortcode();
 	//return dgc_API_create_record_shortcode();
-	//return dgc_API_update_user_shortcode();
-	//return dgc_API_create_user_shortcode();
+	//return dgc_API_update_records_shortcode();
+	//return dgc_API_retrieve_records_shortcode();
+	//return dgc_API_delete_records_shortcode();
+	//return dgc_API_create_participant_shortcode();
+	//return dgc_API_update_participants_shortcode();
+	//return dgc_API_retrieve_participants_shortcode();
 	//return dgc_API_make_privateKey();
 	//return dgc_API_encryptedKey();
 	//return dgc_API_authorization();
+	//return dgc_API_migrate_data_shortcode();
+	//return dgc_API_custodianship_transfer_shortcode();
 }
 
 function dgc_API_dgCoin_exchange_proposal_shortcode() {
@@ -186,7 +186,7 @@ function dgc_API_retrieve_records_shortcode() {
 	return $dgc_API_res['body'];	
 }
 
-function dgc_API_delete_record_shortcode() {
+function dgc_API_delete_records_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
 		'table'		=> $wpdb->prefix . 'wc_products',
@@ -198,7 +198,7 @@ function dgc_API_delete_record_shortcode() {
 	return json_encode($dgc_API_res);
 }
 
-function dgc_API_update_record_shortcode() {
+function dgc_API_update_records_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
 		'table'		=> $wpdb->prefix . 'wc_products',
@@ -228,7 +228,7 @@ function dgc_API_create_record_shortcode() {
 	return json_encode($dgc_API_res);
 }
 
-function dgc_migrate_data_shortcode() {
+function dgc_API_migrate_data_shortcode() {
 
 	WC_Product_Tables_Backwards_Compatibility::unhook();
 	$products = WC_Product_Tables_Migrate_Data::get_products( 'product' );
@@ -247,7 +247,7 @@ function dgc_migrate_data_shortcode() {
 	return 'migrate is done!<br> $products = ' . json_encode($products) . '<br> $variations = ' . json_encode($variations);
 }
 
-function dgc_API_update_participant_shortcode() {
+function dgc_API_update_participants_shortcode() {
 	/**
 	 * check the keys such like email for query if it is NOT existed in users then create a new user
 	 */
@@ -391,9 +391,6 @@ function dgc_API_call($dgc_API_endpoint, $dgc_API_method = 'GET', $dgc_API_args 
     } else {
 		$dgc_API_url = "https://api.scouting.tw/v1";
 	}
-	//global $dgc_API_url;
-	//$dgc_API_url = 'https://api' . substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.')) . '/v1';
-	//$dgc_API_url = "https://api.scouting.tw/v1";
  
 	//Make the call and store the response in $res
 	return wp_remote_request(($dgc_API_url . $dgc_API_endpoint),

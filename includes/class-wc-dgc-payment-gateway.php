@@ -1,6 +1,6 @@
 <?php 
 /**
- * Copyright 2019 dgc Corporation
+ * Copyright 2019 dgc.network
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,10 +51,10 @@ class WC_dgc_Payment_Gateway extends WC_Payment_Gateway{
 				'desc_tip'		=> true,
 			),
 			'description' => array(
-				'title' => __( 'Customer Message', 'woocommerce-dgc-payment-gateway' ),
-				'type' => 'textarea',
-				'css' => 'width:500px;',
-				'default' => 'None of the dgc payment options are suitable for you? please drop us a note about your favourable payment option and we will contact you as soon as possible.',
+				'title' 		=> __( 'Customer Message', 'woocommerce-dgc-payment-gateway' ),
+				'type' 			=> 'textarea',
+				'css' 			=> 'width:500px;',
+				'default' 		=> 'None of the dgc payment options are suitable for you? please drop us a note about your favourable payment option and we will contact you as soon as possible.',
 				'description' 	=> __( 'The message which you want it to appear to the customer in the checkout page.', 'woocommerce-dgc-payment-gateway' ),
 			),
 			'hide_text_box' => array(
@@ -65,10 +65,10 @@ class WC_dgc_Payment_Gateway extends WC_Payment_Gateway{
 				'description' 	=> __( 'If you do not need to show the text box for customers at all, enable this option.', 'woocommerce-dgc-payment-gateway' ),
 			),
 			'order_status' => array(
-				'title' => __( 'Order Status After The Checkout', 'woocommerce-dgc-payment-gateway' ),
-				'type' => 'select',
-				'options' => wc_get_order_statuses(),
-				'default' => 'wc-on-hold',
+				'title' 		=> __( 'Order Status After The Checkout', 'woocommerce-dgc-payment-gateway' ),
+				'type' 			=> 'select',
+				'options' 		=> wc_get_order_statuses(),
+				'default' 		=> 'wc-on-hold',
 				'description' 	=> __( 'The default order status if this gateway used in payment.', 'woocommerce-dgc-payment-gateway' ),
 			),
 		);
@@ -107,7 +107,7 @@ class WC_dgc_Payment_Gateway extends WC_Payment_Gateway{
 	                                            <li>» Auto Hassle-Free Updates</li>
 	                                            <li>» High Priority Customer Support</li>
 	                                        </ul>
-											<a href="https://dgc.com/plugin/woocommerce-dgc-payment-gateway-pro/" class="button dgc_button" target="_blank"><span class="dashicons dashicons-star-filled"></span> Upgrade Now</a> 
+											<a href="https://dgc.network/plugin/woocommerce-dgc-payment-gateway-pro/" class="button dgc_button" target="_blank"><span class="dashicons dashicons-star-filled"></span> Upgrade Now</a> 
 	                                    </div>
 	                                </div>
 	                            </div>
@@ -117,14 +117,14 @@ class WC_dgc_Payment_Gateway extends WC_Payment_Gateway{
 	                                <div class="inside">
 	                                    <div class="support-widget">
 	                                        <p>
-	                                        <img style="width: 70%;margin: 0 auto;position: relative;display: inherit;" src="https://dgc.com/wp-content/uploads/2016/03/dgc_logo_with_ruby_color-300x88.png">
+	                                        <img style="width: 70%;margin: 0 auto;position: relative;display: inherit;" src="https://dgc.network/wp-content/uploads/2016/03/dgc_logo_with_ruby_color-300x88.png">
 	                                        <br/>
 	                                        Got a Question, Idea, Problem or Praise?</p>
 	                                        <ul>
 												<li>» Please leave us a <a target="_blank" href="https://wordpress.org/support/view/plugin-reviews/woocommerce-dgc-payment-gateway?filter=5#postform">★★★★★</a> rating.</li>
-	                                            <li>» <a href="https://dgc.com/submit-ticket/" target="_blank">Support Request</a></li>
-	                                            <li>» <a href="https://dgc.com/knowledgebase_category/woocommerce-dgc-payment-gateway-pro/" target="_blank">Documentation and Common issues.</a></li>
-	                                            <li>» <a href="https://dgc.com/plugins/" target="_blank">Our Plugins Shop</a></li>
+	                                            <li>» <a href="https://dgc.network/submit-ticket/" target="_blank">Support Request</a></li>
+	                                            <li>» <a href="https://dgc.network/knowledgebase_category/woocommerce-dgc-payment-gateway-pro/" target="_blank">Documentation and Common issues.</a></li>
+	                                            <li>» <a href="https://dgc.network/plugins/" target="_blank">Our Plugins Shop</a></li>
 	                                        </ul>
 
 	                                    </div>
@@ -138,7 +138,7 @@ class WC_dgc_Payment_Gateway extends WC_Payment_Gateway{
 											<div class="rss-widget">
 												<?php
 	    											wp_widget_rss_output(array(
-	    													'url' => 'https://dgc.com/feed/',
+	    													'url' => 'https://dgc.network/feed/',
 	    													'title' => 'dgc Blog',
 	    													'items' => 3,
 	    													'show_summary' => 0,
