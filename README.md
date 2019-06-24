@@ -1,6 +1,6 @@
 # dgc WooCommerce API
 
-This is the development repository for our feature plugin to replace WooCommerce product meta data with custom tables. This feature plugin is currently only available on GitHub, but will move to WordPress.org when more stable.
+This is the development repository for our feature plugin to replace WooCommerce product meta data with dgc Blockchain custom tables. This repository also provides the Payment Gateway of dg Coin to dirct pay the order and exchange with other currencies as well. This feature plugin is currently only available on GitHub, but will move to WordPress.org when more stable.
 
 [Since the team implemented CRUD objects in WooCommerce core](https://github.com/woocommerce/woocommerce/wiki/CRUD-Objects-in-3.0), our plan has been to use that abstraction to change core data structures for performance reasons. This project brings about those changes.
 
