@@ -112,7 +112,7 @@ function dgc_API_test_shortcode() {
 function dgc_API_dgCoin_exchange_proposal_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
-		'receivingParticipant'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
+		'receivingKey'		=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
 		'dgCoinExchange'	=> 100,
 	);
 	$dgc_API_res = dgc_API_call('/dgCoinExchangeProposal', 'POST', $dgc_API_args);
@@ -122,18 +122,18 @@ function dgc_API_dgCoin_exchange_proposal_shortcode() {
 function dgc_API_dgCoin_exchange_answer_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
-		'receivingParticipant'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
+		'receivingKey'		=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
 		'dgCoinExchange'	=> 100,
 		'status'			=> 'ACCEPTED', //ACCEPTED, REJECTED, CANCELED
 	);
-	$dgc_API_res = dgc_API_call('/dgCoinExchangeProposal', 'POST', $dgc_API_args);
+	$dgc_API_res = dgc_API_call('/dgCoinExchangeAnswer', 'POST', $dgc_API_args);
 	return json_encode($dgc_API_res);
 }
 
 function dgc_API_dgCoin_transfer_proposal_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
-		'receivingParticipant'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
+		'receivingKey'		=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
 		'dgCoinTransfer'	=> 100,
 	);
 	$dgc_API_res = dgc_API_call('/dgCoinTransferProposal', 'POST', $dgc_API_args);
@@ -143,11 +143,11 @@ function dgc_API_dgCoin_transfer_proposal_shortcode() {
 function dgc_API_dgCoin_transfer_answer_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
-		'receivingParticipant'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
+		'receivingKey'		=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
 		'dgCoinTransfer'	=> 100,
 		'status'			=> 'ACCEPTED', //ACCEPTED, REJECTED, CANCELED
 	);
-	$dgc_API_res = dgc_API_call('/dgCoinTransferProposal', 'POST', $dgc_API_args);
+	$dgc_API_res = dgc_API_call('/dgCoinTransferAnswer', 'POST', $dgc_API_args);
 	return json_encode($dgc_API_res);
 }
 
@@ -156,9 +156,39 @@ function dgc_API_custodianship_transfer_shortcode() {
 	$dgc_API_args = array(
 		'table'		=> $wpdb->prefix . 'wc_products',
 		'query'		=> array(),
-		'receivingParticipant'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
+		'receivingKey'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
 	);
 	$dgc_API_res = dgc_API_call('/custodianshipTransfer', 'POST', $dgc_API_args);
+	return json_encode($dgc_API_res);
+}
+
+function dgc_API_create_record_shortcode() {
+	global $wpdb;
+	$dgc_API_args = array(
+		'table'		=> $wpdb->prefix . 'wc_products',
+		'data'		=> array(
+			'product_id'=> time(),
+			'sku'		=> 'HelloWorld in WooCommerence',
+			'type'		=> 'Book',
+		)
+	);
+	$dgc_API_res = dgc_API_call('/createRecord', 'POST', $dgc_API_args);
+	return json_encode($dgc_API_res);
+}
+
+function dgc_API_update_records_shortcode() {
+	global $wpdb;
+	$dgc_API_args = array(
+		'table'		=> $wpdb->prefix . 'wc_products',
+		'query'		=> array(
+			'product_id'=> 1560580842,
+		),
+		'data'	=> array(
+			'price'		=> 1000,
+			'type'		=> 'iPhoneX',
+		)
+	);
+	$dgc_API_res = dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 	return json_encode($dgc_API_res);
 }
 
@@ -195,36 +225,6 @@ function dgc_API_delete_records_shortcode() {
 		),
 	);
 	$dgc_API_res = dgc_API_call('/deleteRecords', 'POST', $dgc_API_args);
-	return json_encode($dgc_API_res);
-}
-
-function dgc_API_update_records_shortcode() {
-	global $wpdb;
-	$dgc_API_args = array(
-		'table'		=> $wpdb->prefix . 'wc_products',
-		'query'		=> array(
-			'product_id'=> 1560580842,
-		),
-		'data'	=> array(
-			'price'		=> 1000,
-			'type'		=> 'iPhoneX',
-		)
-	);
-	$dgc_API_res = dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
-	return json_encode($dgc_API_res);
-}
-
-function dgc_API_create_record_shortcode() {
-	global $wpdb;
-	$dgc_API_args = array(
-		'table'		=> $wpdb->prefix . 'wc_products',
-		'data'		=> array(
-			'product_id'=> time(),
-			'sku'		=> 'HelloWorld in WooCommerence',
-			'type'		=> 'Book',
-		)
-	);
-	$dgc_API_res = dgc_API_call('/createRecord', 'POST', $dgc_API_args);
 	return json_encode($dgc_API_res);
 }
 
