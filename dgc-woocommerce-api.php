@@ -112,10 +112,9 @@ function dgc_API_test_shortcode() {
 function dgc_API_buy_DGC_proposal_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
-		'receivingKey'		=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
-		'dgCoinAmount'		=> 100,
-		'currencyAmount'	=> array(
-			'NTD'	=> 99
+		'DGC'		=> 100,
+		'expected'	=> array(
+			'TWD'		=> 99
 		),
 	);
 	$dgc_API_res = dgc_API_call('/buyDGCoinProposal', 'POST', $dgc_API_args);
@@ -125,11 +124,10 @@ function dgc_API_buy_DGC_proposal_shortcode() {
 function dgc_API_sell_DGC_proposal_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
-		'receivingKey'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
-		'dgCoinAmount'	=> 100,
-		'currencyAmount'	=> array(
-			'USD'	=> 0.99,
-			'TWD'	=> 101,
+		'DGC'		=> 100,
+		'expected'	=> array(
+			'USD'		=> 0.99,
+			'TWD'		=> 101,
 		),
 	);
 	$dgc_API_res = dgc_API_call('/sellDGCoinProposal', 'POST', $dgc_API_args);
@@ -140,7 +138,7 @@ function dgc_API_transfer_DGC_proposal_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
 		'receivingKey'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
-		'dgCoinAmount'	=> 100,
+		'DGC'			=> 100,
 	);
 	$dgc_API_res = dgc_API_call('/transferDGCoinProposal', 'POST', $dgc_API_args);
 	return json_encode($dgc_API_res);
@@ -150,7 +148,7 @@ function dgc_API_transfer_DGC_answer_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
 		'receivingKey'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
-		'dgCoinAmount'	=> 100,
+		'DGC'			=> 100,
 		'status'		=> 'ACCEPTED', //ACCEPTED, REJECTED, CANCELED
 	);
 	$dgc_API_res = dgc_API_call('/transferDGCoinAnswer', 'POST', $dgc_API_args);
