@@ -112,8 +112,11 @@ function dgc_API_test_shortcode() {
 function dgc_API_buy_DGC_proposal_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
-		'receivingKey'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
-		'dgCoinAmount'	=> 100,
+		'receivingKey'		=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
+		'dgCoinAmount'		=> 100,
+		'currencyAmount'	=> array(
+			'NTD'	=> 99
+		),
 	);
 	$dgc_API_res = dgc_API_call('/buyDGCoinProposal', 'POST', $dgc_API_args);
 	return json_encode($dgc_API_res);
@@ -124,6 +127,10 @@ function dgc_API_sell_DGC_proposal_shortcode() {
 	$dgc_API_args = array(
 		'receivingKey'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
 		'dgCoinAmount'	=> 100,
+		'currencyAmount'	=> array(
+			'USD'	=> 0.99,
+			'TWD'	=> 101,
+		),
 	);
 	$dgc_API_res = dgc_API_call('/sellDGCoinProposal', 'POST', $dgc_API_args);
 	return json_encode($dgc_API_res);
