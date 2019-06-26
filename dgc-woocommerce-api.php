@@ -112,11 +112,8 @@ function dgc_API_test_shortcode() {
 function dgc_API_buy_DGC_proposal_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
-		'DGC'				=> 100,
-		'startExchanges'	=> array(
-			'TWD'	=> 99
-		),
-		'endExchanges'	=> array(
+		'DGC'			=> 100,
+		'highestQuotes'	=> array(
 			'TWD'	=> 101
 		),
 	);
@@ -127,12 +124,9 @@ function dgc_API_buy_DGC_proposal_shortcode() {
 function dgc_API_sell_DGC_proposal_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
-		'DGC'				=> 100,
-		'startExchanges'	=> array(
+		'DGC'			=> 100,
+		'lowestQuotes'	=> array(
 			'USD'	=> 3.99,
-		),
-		'endExchanges'	=> array(
-			'USD'	=> 3.89,
 		),
 	);
 	$dgc_API_res = dgc_API_call('/sellDGCoinProposal', 'POST', $dgc_API_args);
