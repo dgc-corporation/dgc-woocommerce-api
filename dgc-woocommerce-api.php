@@ -112,7 +112,7 @@ function dgc_API_test_shortcode() {
 function dgc_API_buy_DGC_proposal_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
-		'DGC'				=> 100,
+		'DGC'			=> 100,
 		'exchangeQuotes'	=> array(
 			'TWD'	=> 101,  //highest price to buy
 		),
@@ -124,7 +124,7 @@ function dgc_API_buy_DGC_proposal_shortcode() {
 function dgc_API_sell_DGC_proposal_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
-		'DGC'				=> 100,
+		'DGC'			=> 100,
 		'exchangeQuotes'	=> array(
 			'USD'	=> 3.99,  //lowest price to sell
 		),
