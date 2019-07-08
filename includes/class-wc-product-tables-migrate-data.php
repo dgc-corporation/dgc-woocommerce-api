@@ -226,6 +226,15 @@ class WC_Product_Tables_Migrate_Data {
 			}
 		}
 		// dgc-API-call for $wpdb->get_results
+		if ($product_ids == '') {
+			return $wpdb->get_results(
+				"SELECT ID, post_type FROM {$wpdb->posts}
+				WHERE post_type IN ({$post_type_sql})
+				AND post_status IN ( 'publish', 'future', 'draft', 'private' )
+				"
+			);
+		}
+
 		return $wpdb->get_results(
 			"SELECT ID, post_type FROM {$wpdb->posts}
 			WHERE post_type IN ({$post_type_sql})
