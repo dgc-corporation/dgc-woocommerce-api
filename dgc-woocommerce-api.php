@@ -57,8 +57,8 @@ add_action( 'plugins_loaded', 'wc_custom_product_tables_bootstrap' );
  * dgc API call
  */
 add_action( 'plugins_loaded', 'dgc_API_global' );
-add_action( 'user_register', 'dgc_API_create_participant_shortcode', 10, 1 );
-add_action( 'edit_user_profile_update', 'dgc_API_update_participant_shortcode');
+add_action( 'user_register', 'dgc_API_create_user_shortcode', 10, 1 );
+add_action( 'edit_user_profile_update', 'dgc_API_update_user_shortcode');
 
 /**
  * dgc Payment
@@ -95,37 +95,50 @@ function dgc_payment_is_woocommerce_active()
 add_shortcode( 'dgc-api-test', 'dgc_API_test_shortcode' );
 
 function dgc_API_test_shortcode() {
-	//return dgc_API_create_record_shortcode();
-	//return dgc_API_update_records_shortcode();
-	//return dgc_API_retrieve_records_shortcode();
-	//return dgc_API_delete_records_shortcode();
 	//return dgc_API_create_participant_shortcode();
-	//return dgc_API_update_participants_shortcode();
-	//return dgc_API_retrieve_participants_shortcode();
-	//return dgc_API_make_privateKey();
-	//return dgc_API_encryptedKey();
-	//return dgc_API_authorization();
-	//return dgc_API_migrate_data_shortcode();
+	//return dgc_API_retrieve_proposals_shortcode();
+	//return dgc_API_buy_DGC_proposal_shortcode();
+	//return dgc_API_sell_DGC_proposal_shortcode();
+	return dgc_API_apply_DGC_credit_shortcode();
 	//return dgc_API_transfer_custodianship_shortcode();
+	//return wc_custom_product_tables_activate();
+	return dgc_migrate_data_shortcode();
+	return dgc_API_create_record_shortcode();
+	return dgc_API_retrieve_records_shortcode();
+	//return dgc_API_update_records_shortcode();
+	//return dgc_API_delete_records_shortcode();
+	return dgc_API_retrieve_participants_shortcode();
+	//return dgc_API_update_participants_shortcode();
+	//return dgc_API_mapsApiKey();
 }
 
-function dgc_API_buy_DGC_proposal_shortcode() {
-	global $wpdb;
+function dgc_API_retrieve_proposals_shortcode() {
 	$dgc_API_args = array(
-		'DGC'			=> 100,
-		'exchangeQuotes'	=> array(
-			'TWD'	=> 101,  //highest price to buy
+		'query'	=> array(
+			'role'		=> 'buyDGC',
+			'status'	=> 'OPEN',
 		),
 	);
-	$dgc_API_res = dgc_API_call('/buyDGCoinProposal', 'POST', $dgc_API_args);
+	$dgc_API_res = dgc_API_call('/retrieveProposals', 'POST', $dgc_API_args);
+	//return json_encode($dgc_API_res);
+	return $dgc_API_res['body'];
+}
+
+function dgc_API_apply_DGC_credit_shortcode() {
+	$dgc_API_args = array(
+		'data'	=> array(
+			'receivingKey'	=> '02d73ff52fc955d6b6a3bec3453cd2c2aca179317b4bdc144c00433054d223b594',
+			'DGC'	=> 1000,
+		),
+	);
+	$dgc_API_res = dgc_API_call('/applyDGCoinCredit', 'POST', $dgc_API_args);
 	return json_encode($dgc_API_res);
 }
 
 function dgc_API_sell_DGC_proposal_shortcode() {
-	global $wpdb;
 	$dgc_API_args = array(
-		'DGC'			=> 100,
-		'exchangeQuotes'	=> array(
+		'data'	=> array(
+			'DGC'	=> 100,
 			'USD'	=> 3.99,  //lowest price to sell
 		),
 	);
@@ -133,24 +146,39 @@ function dgc_API_sell_DGC_proposal_shortcode() {
 	return json_encode($dgc_API_res);
 }
 
-function dgc_API_transfer_DGC_proposal_shortcode() {
-	global $wpdb;
+function dgc_API_buy_DGC_proposal_shortcode() {
 	$dgc_API_args = array(
-		'receivingKey'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
-		'DGC'			=> 100,
+		'data'	=> array(
+			'DGC'	=> 100,
+			'TWD'	=> 101,  //highest price to buy
+		),
+	);
+	$dgc_API_res = dgc_API_call('/buyDGCoinProposal', 'POST', $dgc_API_args);
+	return json_encode($dgc_API_res);
+}
+
+function dgc_API_transfer_DGC_proposal_shortcode() {
+	$dgc_API_args = array(
+		'data'	=> array(
+			'receivingKey'	=> '02d73ff52fc955d6b6a3bec3453cd2c2aca179317b4bdc144c00433054d223b594',
+			'DGC'			=> 100,
+		),
 	);
 	$dgc_API_res = dgc_API_call('/transferDGCoinProposal', 'POST', $dgc_API_args);
 	return json_encode($dgc_API_res);
 }
 
-function dgc_API_transfer_DGC_answer_shortcode() {
+function dgc_API_answer_DGC_transfer_shortcode() {
 	global $wpdb;
 	$dgc_API_args = array(
-		'receivingKey'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
-		'DGC'			=> 100,
-		'status'		=> 'ACCEPTED', //ACCEPTED, REJECTED, CANCELED
+		'query'	=> array(
+			'proposalId'	=> 'transferDGC1562575541',
+		),
+		'data'	=> array(
+			'response'	=> 'ACCEPT', //ACCEPT, REJECT, CANCEL,
+		),
 	);
-	$dgc_API_res = dgc_API_call('/transferDGCoinAnswer', 'POST', $dgc_API_args);
+	$dgc_API_res = dgc_API_call('/answerDGCoinTransfer', 'POST', $dgc_API_args);
 	return json_encode($dgc_API_res);
 }
 
@@ -159,7 +187,7 @@ function dgc_API_transfer_custodianship_shortcode() {
 	$dgc_API_args = array(
 		'table'		=> $wpdb->prefix . 'wc_products',
 		'query'		=> array(),
-		'receivingKey'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
+		'publicKey'	=> '034f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa',
 	);
 	$dgc_API_res = dgc_API_call('/transferCustodianship', 'POST', $dgc_API_args);
 	return json_encode($dgc_API_res);
@@ -176,22 +204,6 @@ function dgc_API_create_record_shortcode() {
 		)
 	);
 	$dgc_API_res = dgc_API_call('/createRecord', 'POST', $dgc_API_args);
-	return json_encode($dgc_API_res);
-}
-
-function dgc_API_update_records_shortcode() {
-	global $wpdb;
-	$dgc_API_args = array(
-		'table'		=> $wpdb->prefix . 'wc_products',
-		'query'		=> array(
-			'product_id'=> 1560580842,
-		),
-		'data'	=> array(
-			'price'		=> 1000,
-			'type'		=> 'iPhoneX',
-		)
-	);
-	$dgc_API_res = dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
 	return json_encode($dgc_API_res);
 }
 
@@ -215,8 +227,24 @@ function dgc_API_retrieve_records_shortcode() {
 		'query'		=> array(),
 	);
 	$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
-	//return json_encode($dgc_API_res);
-	return $dgc_API_res['body'];	
+	return json_encode($dgc_API_res);
+	//return $dgc_API_res['body'];
+}
+
+function dgc_API_update_records_shortcode() {
+	global $wpdb;
+	$dgc_API_args = array(
+		'table'		=> $wpdb->prefix . 'wc_products',
+		'query'		=> array(
+			'product_id'=> 1560580842,
+		),
+		'data'	=> array(
+			'price'		=> 1000,
+			'type'		=> 'iPhoneX',
+		)
+	);
+	$dgc_API_res = dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
+	return json_encode($dgc_API_res);
 }
 
 function dgc_API_delete_records_shortcode() {
@@ -231,23 +259,8 @@ function dgc_API_delete_records_shortcode() {
 	return json_encode($dgc_API_res);
 }
 
-function dgc_API_migrate_data_shortcode() {
-
-	WC_Product_Tables_Backwards_Compatibility::unhook();
-	$products = WC_Product_Tables_Migrate_Data::get_products( 'product' );
-	foreach ( $products as $product ) {
-		WC_Product_Tables_Migrate_Data::migrate_product( $product);
-	}
-
-	$variations = WC_Product_Tables_Migrate_Data::get_products( 'product_variation' );
-	foreach ( $variations as $product ) {
-		WC_Product_Tables_Migrate_Data::migrate_product( $product);
-	}
-
-	wp_cache_flush();
-	wc_delete_product_transients();
-	WC_Product_Tables_Backwards_Compatibility::hook();
-	return 'migrate is done!<br> $products = ' . json_encode($products) . '<br> $variations = ' . json_encode($variations);
+function dgc_migrate_data_shortcode() {
+	WC_Product_Tables_Migrate_Data::migrate();
 }
 
 function dgc_API_update_participants_shortcode() {
@@ -304,35 +317,55 @@ function dgc_API_create_participant_shortcode() {
 			'email'			=> get_userdata(get_current_user_id())->user_email,
 		)
 	);
+	//return json_encode($dgc_API_args);
 	$dgc_API_res = dgc_API_call('/retrieveParticipants', 'POST', $dgc_API_args);
+	//return json_encode($dgc_API_res);
 	if (json_decode($dgc_API_res['body']) == []){		
 		dgc_API_make_privateKey();
-		dgc_API_encryptedKey();
-		dgc_API_authorization();
 		$dgc_API_args = array(
 			'data'	=> array(
 				'username'		=> get_userdata(get_current_user_id())->user_login,
 				'password'		=> get_userdata(get_current_user_id())->user_login,
 				'publicKey'		=> get_user_meta(get_current_user_id(), "publicKey", true ),
-				'name'			=> get_userdata(get_current_user_id())->user_login,
 				'email'			=> get_userdata(get_current_user_id())->user_email,
+				'name'			=> get_userdata(get_current_user_id())->user_login,
 				'privateKey'	=> get_user_meta(get_current_user_id(), "privateKey", true ),
-				'encryptedKey'	=> get_user_meta(get_current_user_id(), "encryptedKey", true ),
+//				'encryptedKey'	=> get_user_meta(get_current_user_id(), "encryptedKey", true ),
 				'hashedPassword'=> get_userdata(get_current_user_id())->user_pass,
 			)
 		);
 		$dgc_API_res = dgc_API_call('/createParticipant', 'POST', $dgc_API_args);
 	}
-	return json_encode($dgc_API_res);
+	update_user_meta(get_current_user_id(), 'authorization', json_decode($dgc_API_res['body'])->authorization);
+	update_user_meta(get_current_user_id(), 'encryptedKey', json_decode($dgc_API_res['body'])->encryptedKey);
+	//return json_encode($dgc_API_res);
+	return $dgc_API_res['body'];
+}
+
+function dgc_API_mapsApiKey() {
+	if (get_user_meta(get_current_user_id(), "mapsApiKey", true ) == null) {
+	$dgc_API_args = array(
+		'MAPS_API_KEY'	=> 'https://developers.google.com/maps/documentation/javascript/get-api-key',
+	);
+		$dgc_API_res = dgc_API_call('/mapsApiKey', 'POST');
+//		update_user_meta(get_current_user_id(), 'mapsApiKey', json_decode($dgc_API_res['body'])->privateKey);
+		return json_encode($dgc_API_res);
+	} else {
+		return 'mapsApiKey: ' . get_user_meta(get_current_user_id(), "mapsApiKey", true );
+	}
 }
 
 function dgc_API_make_privateKey() {
-	$dgc_API_res = dgc_API_call('/makePrivateKey', 'POST');
-	update_user_meta(get_current_user_id(), 'privateKey', json_decode($dgc_API_res['body'])->privateKey);
-	update_user_meta(get_current_user_id(), 'publicKey', json_decode($dgc_API_res['body'])->publicKey);
-	return json_encode($dgc_API_res);
+	if (get_user_meta(get_current_user_id(), "privateKey", true ) == null) {
+		$dgc_API_res = dgc_API_call('/makePrivateKey', 'POST');
+		update_user_meta(get_current_user_id(), 'privateKey', json_decode($dgc_API_res['body'])->privateKey);
+		update_user_meta(get_current_user_id(), 'publicKey', json_decode($dgc_API_res['body'])->publicKey);
+		return json_encode($dgc_API_res);
+	} else {
+		return 'privateKey: ' . get_user_meta(get_current_user_id(), "privateKey", true );
+	}
 }
-
+/*
 function dgc_API_encryptedKey() {
 	$dgc_API_args = array(
 		'password'		=> get_userdata(get_current_user_id())->user_pass,
@@ -352,7 +385,7 @@ function dgc_API_authorization() {
 	update_user_meta(get_current_user_id(), 'authorization', json_decode($dgc_API_res['body'])->authorization);
 	return json_encode($dgc_API_res);
 }
-
+*/
 function dgc_API_global() {
 	global $wpdb;
 
@@ -394,6 +427,9 @@ function dgc_API_call($dgc_API_endpoint, $dgc_API_method = 'GET', $dgc_API_args 
     } else {
 		$dgc_API_url = "https://api.scouting.tw/v1";
 	}
+	//global $dgc_API_url;
+	//$dgc_API_url = 'https://api' . substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.')) . '/v1';
+	//$dgc_API_url = "https://api.scouting.tw/v1";
  
 	//Make the call and store the response in $res
 	return wp_remote_request(($dgc_API_url . $dgc_API_endpoint),
