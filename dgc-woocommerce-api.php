@@ -2,17 +2,15 @@
 /**
  * Plugin Name: dgc WooCommerce API
  * Plugin URI: https://dgc.network/
- * Description: Implements new data-stores and moves product data into custom tables, with a new, normalised data structure.
+ * Description: Implements new data-stores hook up with dgc-network blockchain and moves product data into custom tables, with a new, normalised data structure.
  * Requires PHP 5.3 or greater.
  * Version: 1.0.0-dev
- * Author: Automattic
+ * Author: The dgc.network
  * Author URI: https://dgc.network
+ * @package dgc WooCommerce API
  *
  * Text Domain: dgc-woocommerce-api
  * Domain Path: /languages/
- *
- * @package dgc WooCommerce API
- * @author Automattic
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -96,11 +94,12 @@ add_shortcode( 'dgc-api-test', 'dgc_API_test_shortcode' );
 
 function dgc_API_test_shortcode() {
 	//return dgc_API_create_participant_shortcode();
-	//return dgc_API_retrieve_proposals_shortcode();
+	//return dgc_API_apply_DGC_credit_shortcode();
 	//return dgc_API_buy_DGC_proposal_shortcode();
 	//return dgc_API_sell_DGC_proposal_shortcode();
-	return dgc_API_apply_DGC_credit_shortcode();
+	return dgc_API_transfer_DGC_proposal_shortcode();
 	//return dgc_API_transfer_custodianship_shortcode();
+	//return dgc_API_retrieve_proposals_shortcode();
 	//return wc_custom_product_tables_activate();
 	return dgc_migrate_data_shortcode();
 	return dgc_API_create_record_shortcode();
@@ -127,8 +126,8 @@ function dgc_API_retrieve_proposals_shortcode() {
 function dgc_API_apply_DGC_credit_shortcode() {
 	$dgc_API_args = array(
 		'data'	=> array(
-			'receivingKey'	=> '02d73ff52fc955d6b6a3bec3453cd2c2aca179317b4bdc144c00433054d223b594',
-			'DGC'	=> 1000,
+			'receivingKey'	=> '02d73ff52fc955d6b6a3bec3453cd2c2aca179317b4bdc144c00433054d223b594', //receiving_participant_public_key
+			'DGC'	=> 10000.00,
 		),
 	);
 	$dgc_API_res = dgc_API_call('/applyDGCoinCredit', 'POST', $dgc_API_args);
@@ -138,8 +137,8 @@ function dgc_API_apply_DGC_credit_shortcode() {
 function dgc_API_sell_DGC_proposal_shortcode() {
 	$dgc_API_args = array(
 		'data'	=> array(
-			'DGC'	=> 100,
-			'USD'	=> 3.99,  //lowest price to sell
+			'DGC'	=> 200,
+			'TWD'	=> 199.99,  //lowest price to sell
 		),
 	);
 	$dgc_API_res = dgc_API_call('/sellDGCoinProposal', 'POST', $dgc_API_args);
@@ -149,8 +148,8 @@ function dgc_API_sell_DGC_proposal_shortcode() {
 function dgc_API_buy_DGC_proposal_shortcode() {
 	$dgc_API_args = array(
 		'data'	=> array(
-			'DGC'	=> 100,
-			'TWD'	=> 101,  //highest price to buy
+			'DGC'	=> 300,
+			'TWD'	=> 301,  //highest price to buy
 		),
 	);
 	$dgc_API_res = dgc_API_call('/buyDGCoinProposal', 'POST', $dgc_API_args);
@@ -160,7 +159,7 @@ function dgc_API_buy_DGC_proposal_shortcode() {
 function dgc_API_transfer_DGC_proposal_shortcode() {
 	$dgc_API_args = array(
 		'data'	=> array(
-			'receivingKey'	=> '02d73ff52fc955d6b6a3bec3453cd2c2aca179317b4bdc144c00433054d223b594',
+			'receivingKey'	=> '02d73ff52fc955d6b6a3bec3453cd2c2aca179317b4bdc144c00433054d223b594', //receiving_participant_public_key
 			'DGC'			=> 100,
 		),
 	);
