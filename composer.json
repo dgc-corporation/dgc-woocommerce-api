@@ -1,7 +1,7 @@
 {
   "name": "dgc-corporation/dgc-woocommerce-api",
   "description": "WooCommerce product tables feature plugin",
-  "homepage": "https://github.com/dgc-corporation/dgc-woocommerce-api",
+  "homepage": "https://github.com/dgc-network/dgc-woocommerce-api",
   "type": "wordpress-plugin",
   "license": "GPL-2.0+",
   "require-dev": {

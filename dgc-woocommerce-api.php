@@ -5,7 +5,7 @@
  * Description: Implements new data-stores hook up with dgc-network blockchain and moves product data into custom tables, with a new, normalised data structure.
  * Requires PHP 5.3 or greater.
  * Version: 1.0.0-dev
- * Author: The dgc.network
+ * @author: The dgc.network
  * Author URI: https://dgc.network
  * @package dgc WooCommerce API
  *
