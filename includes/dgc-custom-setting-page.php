@@ -38,7 +38,7 @@ function dgc_theme_settings(){
 	$dgc_API_url = 'https://api' . substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.')) . '/v1';
 	add_option('endpoint_field_option', $dgc_API_url); //Value for this option name.
 	global $wpdb;
-	dgc_API_global();
+	dgc_API_prefix();
 	add_option('prefix_field_option', $wpdb->prefix); //Value for this option name.
 
 	add_settings_section( 'first_section','dgc-REST-api Setting','first_theme_section_description','theme-options');

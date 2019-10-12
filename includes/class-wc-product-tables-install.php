@@ -21,7 +21,7 @@ class WC_Product_Tables_Install {
 		if ( isset( $wpdb->prefix ) ) {
 			$wpdb->prefix = get_option('prefix_field_option');
 		} else {
-			dgc_API_global();
+			dgc_API_prefix();
 		}
 	
 		//dgc_API_create_user_shortcode();

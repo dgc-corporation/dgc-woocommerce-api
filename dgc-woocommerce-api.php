@@ -54,7 +54,7 @@ add_action( 'plugins_loaded', 'wc_custom_product_tables_bootstrap' );
 /**
  * dgc API call
  */
-add_action( 'plugins_loaded', 'dgc_API_global' );
+add_action( 'plugins_loaded', 'dgc_API_prefix' );
 add_action( 'user_register', 'dgc_API_create_user_shortcode', 10, 1 );
 add_action( 'edit_user_profile_update', 'dgc_API_update_user_shortcode');
 
@@ -409,7 +409,7 @@ function dgc_API_authorization() {
 	return json_encode($dgc_API_res);
 }
 */
-function dgc_API_global() {
+function dgc_API_prefix() {
 	global $wpdb;
 
 	$loopArray = str_split($_SERVER['HTTP_HOST']);
@@ -450,15 +450,7 @@ function dgc_API_call($dgc_API_endpoint, $dgc_API_method = 'GET', $dgc_API_args 
     } else {
 		$dgc_API_url = "https://api.scouting.tw/v1";
 	}
-	//return get_option('admin_email');
-	//return get_option('endpoint_field_option');
-	//return get_option('prefix_field_option');
-	//global $dgc_API_url;
-	//$dgc_API_url = 'https://api' . substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.')) . '/v1';
-	//$dgc_API_url = "https://api.scouting.tw/v1";
-	//return $dgc_API_url . $dgc_API_endpoint;
-	//return $wp_request_headers;
-	//Make the call
+
 	return wp_remote_request(($dgc_API_url . $dgc_API_endpoint),
         array(
             'method'    => $dgc_API_method,
