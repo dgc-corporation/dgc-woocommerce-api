@@ -337,7 +337,7 @@ function dgc_API_create_participant_shortcode() {
 
 	$dgc_API_args = array(
 		'query'	=> array(
-			'email'			=> get_userdata(get_current_user_id())->user_email,
+			'email'	=> get_userdata(get_current_user_id())->user_email,
 		)
 	);
 	//return json_encode($dgc_API_args);
