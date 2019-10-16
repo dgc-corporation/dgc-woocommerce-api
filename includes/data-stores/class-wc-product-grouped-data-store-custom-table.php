@@ -79,21 +79,23 @@ class WC_Product_Grouped_Data_Store_Custom_Table extends WC_Product_Data_Store_C
 		);
 		$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 		foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-			$min_price = $dgc_API_row->properties->price;
-			// dgc-API-call: /updateRecords
-			$dgc_API_args = array(
-				'table'	=> $wpdb->prefix . 'wc_products',
-				'query'	=> array(
-					'product_id'	=> $product->get_id(),
-				),
-				'data'	=> array(
-					'price' 		=> wc_format_decimal( $min_price ),
-				),
-			);
-			dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
-			// dgc-API-call
+			if (null !== $dgc_API_row->properties) {
+				$min_price = $dgc_API_row->properties->price;
+				// dgc-API-call: /updateRecords
+				$dgc_API_args = array(
+					'table'	=> $wpdb->prefix . 'wc_products',
+					'query'	=> array(
+						'product_id'	=> $product->get_id(),
+					),
+					'data'	=> array(
+						'price' 		=> wc_format_decimal( $min_price ),
+					),
+				);
+				dgc_API_call('/updateRecords', 'POST', $dgc_API_args);
+				// dgc-API-call
+			}
 		}
-		// dgc-API-call		
+		// dgc-API-call:end: /retrieveRecords
 	}
 
 	/**

@@ -250,6 +250,12 @@ function dgc_API_retrieve_records_shortcode() {
 		'query'		=> array(),
 	);
 	$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
+	foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
+		if (null !== $dgc_API_row->properties) {
+			//$this->total_count += 1;
+		}
+	}
+	// dgc-API-call:end: /retrieveRecords
 	return json_encode($dgc_API_res);
 	//return $dgc_API_res['body'];
 }

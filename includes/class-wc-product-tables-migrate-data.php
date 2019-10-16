@@ -205,12 +205,16 @@ class WC_Product_Tables_Migrate_Data {
 		);
 		$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 		foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-			$product_id = $dgc_API_row->properties->product_id;
-			$product_ids .= $product_id;
-			if ($dgc_API_row != end(json_decode($dgc_API_res['body']))) {
-				$product_ids .= ',';				
+			if (null !== $dgc_API_row->properties) {
+				$product_id = $dgc_API_row->properties->product_id;
+				$product_ids .= $product_id;
+				if ($dgc_API_row != end(json_decode($dgc_API_res['body']))) {
+					$product_ids .= ',';				
+				}
 			}
 		}
+		// dgc-API-call:end: /retrieveRecords
+
 		// dgc-API-call for $wpdb->get_results
 		if ($product_ids == '') {
 			return $wpdb->get_results(

@@ -170,10 +170,13 @@ class WC_Product_Variable_Data_Store_Custom_Table extends WC_Product_Data_Store_
 						);
 						$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 						foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-							foreach($query_args as $product_attribute_id) {
-								array_push($col, $dgc_API_row->properties->value);
+							if (null !== $dgc_API_row->properties) {
+								foreach($query_args as $product_attribute_id) {
+									array_push($col, $dgc_API_row->properties->value);
+								}
 							}
 						}
+						// dgc-API-call:end: /retrieveRecords
 					}
 					$values = array_unique($col);
 					// dgc-API-call	
@@ -430,12 +433,14 @@ class WC_Product_Variable_Data_Store_Custom_Table extends WC_Product_Data_Store_
 			}
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-				$child_has_weight = null !== $dgc_API_row->properties->product_id ? 1 : 0;
-				if ($dgc_API_row->properties->weight > 0) {
-					wp_cache_set( 'woocommerce_product_child_has_weight_' . $product->get_id(), $child_has_weight, 'product' );
+				if (null !== $dgc_API_row->properties) {
+					$child_has_weight = null !== $dgc_API_row->properties->product_id ? 1 : 0;
+					if ($dgc_API_row->properties->weight > 0) {
+						wp_cache_set( 'woocommerce_product_child_has_weight_' . $product->get_id(), $child_has_weight, 'product' );
+					}
 				}
 			}
-			// dgc-API-call
+			// dgc-API-call:end: /retrieveRecords
 		}
 
 		return (bool) $child_has_weight;
@@ -492,15 +497,17 @@ class WC_Product_Variable_Data_Store_Custom_Table extends WC_Product_Data_Store_
 			}
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-				$child_has_dimensions = null !== $dgc_API_row->properties->product_id ? 1 : 0;
-				$length = $res_row->properties->length;
-				$width = $res_row->properties->width;
-				$heigth = $res_row->properties->heigth;
-				if (($length > 0)||($width > 0)||($heigth > 0)) {
-					wp_cache_set( 'woocommerce_product_child_has_dimensions_' . $product->get_id(), $child_has_dimensions, 'product' );
+				if (null !== $dgc_API_row->properties) {
+					$child_has_dimensions = null !== $dgc_API_row->properties->product_id ? 1 : 0;
+					$length = $res_row->properties->length;
+					$width = $res_row->properties->width;
+					$heigth = $res_row->properties->heigth;
+					if (($length > 0)||($width > 0)||($heigth > 0)) {
+						wp_cache_set( 'woocommerce_product_child_has_dimensions_' . $product->get_id(), $child_has_dimensions, 'product' );
+					}
 				}
 			}
-			// dgc-API-call
+			// dgc-API-call:end: /retrieveRecords
 		}
 
 		return (bool) $child_has_dimensions;
@@ -566,8 +573,11 @@ class WC_Product_Variable_Data_Store_Custom_Table extends WC_Product_Data_Store_
 			);
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-				$children_stock_status[ $status ] = $dgc_API_row->properties->stock_status;
+				if (null !== $dgc_API_row->properties) {
+					$children_stock_status[ $status ] = $dgc_API_row->properties->stock_status;
+				}
 			}
+			// dgc-API-call:end: /retrieveRecords
 			wp_cache_set( 'woocommerce_product_children_stock_status_' . $product->get_id(), $children_stock_status, 'product' );
 			// dgc-API-call
 		}
@@ -670,9 +680,12 @@ class WC_Product_Variable_Data_Store_Custom_Table extends WC_Product_Data_Store_
 			);
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-				$price = $dgc_API_row->properties->price;
-				$min_price = $children ? $price : null;
+				if (null !== $dgc_API_row->properties) {
+					$price = $dgc_API_row->properties->price;
+					$min_price = $children ? $price : null;
+				}
 			}
+			// dgc-API-call:end: /retrieveRecords
 		}
 		// dgc-API-call
 

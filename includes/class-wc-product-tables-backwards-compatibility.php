@@ -219,12 +219,15 @@ class WC_Product_Tables_Backwards_Compatibility {
 			);
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-				foreach($dgc_API_row->properties as $key => $value) {
-					if ($key == $escaped_column) {
-						array_push($col, $value);
+				if (null !== $dgc_API_row->properties) {
+					foreach($dgc_API_row->properties as $key => $value) {
+						if ($key == $escaped_column) {
+							array_push($col, $value);
+						}
 					}
 				}
 			}
+			// dgc-API-call:end: /retrieveRecords
 			$data[ $args['column'] ] = $col;
 			// dgc-API-call
 
@@ -390,12 +393,15 @@ class WC_Product_Tables_Backwards_Compatibility {
 			);
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-				foreach($dgc_API_row->properties as $key => $value) {
-					if ($key == 'object_id') {
-						array_push($col, $value);
+				if (null !== $dgc_API_row->properties) {
+					foreach($dgc_API_row->properties as $key => $value) {
+						if ($key == 'object_id') {
+							array_push($col, $value);
+						}
 					}
 				}
 			}
+			// dgc-API-call:end: /retrieveRecords
 			array_push($data[], $col);
 			// dgc-API-call
 
@@ -447,11 +453,13 @@ class WC_Product_Tables_Backwards_Compatibility {
 		);
 		$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 		foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-			$existing_relationship_data = $dgc_API_row->properties;
-			$old_values = wp_list_pluck( $existing_relationship_data, 'object_id' );
-			$missing = array_diff( $old_values, $new_values );
+			if (null !== $dgc_API_row->properties) {
+				$existing_relationship_data = $dgc_API_row->properties;
+				$old_values = wp_list_pluck( $existing_relationship_data, 'object_id' );
+				$missing = array_diff( $old_values, $new_values );
+			}
 		}
-		// dgc-API-call
+		// dgc-API-call:end: /retrieveRecords
 
 		// Delete from database missing values.
 		foreach ( $missing as $object_id ) {
@@ -707,10 +715,12 @@ class WC_Product_Tables_Backwards_Compatibility {
 			);
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-				$query_results = $dgc_API_row->properties;
-				wp_cache_set( 'woocommerce_product_backwards_compatibility_downloadable_files_' . $args['product_id'], $query_results, 'product' );
+				if (null !== $dgc_API_row->properties) {
+					$query_results = $dgc_API_row->properties;
+					wp_cache_set( 'woocommerce_product_backwards_compatibility_downloadable_files_' . $args['product_id'], $query_results, 'product' );
+				}
 			}
-			// dgc-API-call
+			// dgc-API-call:end: /retrieveRecords
 		}
 
 		$mapped_results = array();
@@ -770,15 +780,17 @@ class WC_Product_Tables_Backwards_Compatibility {
 		);
 		$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 		foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-			$existing_file_data = $dgc_API_row->properties;
-			$existing_file_data_by_key = array();
-			foreach ( $existing_file_data as $data ) {
-				$existing_file_data_by_key[ $data->download_id ] = $data;
+			if (null !== $dgc_API_row->properties) {
+				$existing_file_data = $dgc_API_row->properties;
+				$existing_file_data_by_key = array();
+				foreach ( $existing_file_data as $data ) {
+					$existing_file_data_by_key[ $data->download_id ] = $data;
+				}
+				$old_ids = wp_list_pluck( $existing_file_data, 'download_id' );
+				$missing = array_diff( $old_ids, $new_ids );
 			}
-			$old_ids = wp_list_pluck( $existing_file_data, 'download_id' );
-			$missing = array_diff( $old_ids, $new_ids );
 		}
-		// dgc-API-call
+		// dgc-API-call:end: /retrieveRecords
 		
 		// Delete from database missing values.
 		foreach ( $missing as $download_id ) {

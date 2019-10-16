@@ -239,11 +239,13 @@ class WC_Product_Tables_Query {
 			);
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-				if ($dgc_API_row->properties->price >= $this->price_filter_min && $dgc_API_row->properties->price <= $this->price_filter_max) {
-					array_push($ids1, $dgc_API_row->properties->product_id);
+				if (null !== $dgc_API_row->properties) {
+					if ($dgc_API_row->properties->price >= $this->price_filter_min && $dgc_API_row->properties->price <= $this->price_filter_max) {
+						array_push($ids1, $dgc_API_row->properties->product_id);
+					}
 				}
 			}
-			// dgc-API-call: /retrieveRecords
+			// dgc-API-call:end: /retrieveRecords
 			$ids2 = array();
 			$dgc_API_args = array(
 				'table'		=> $wpdb->prefix . 'wc_products',
@@ -253,11 +255,13 @@ class WC_Product_Tables_Query {
 			);
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-				if ($dgc_API_row->properties->price >= $this->price_filter_min && $dgc_API_row->properties->price <= $this->price_filter_max) {
-					array_push($ids2, $dgc_API_row->properties->product_id);
+				if (null !== $dgc_API_row->properties) {
+					if ($dgc_API_row->properties->price >= $this->price_filter_min && $dgc_API_row->properties->price <= $this->price_filter_max) {
+						array_push($ids2, $dgc_API_row->properties->product_id);
+					}
 				}
 			}
-			// dgc-API-call
+			// dgc-API-call:end: /retrieveRecords
 			$args['where'] .= "AND ({$wpdb->posts}.ID IN (" . $ids1 . ") OR {$wpdb->posts}.ID IN (" . $ids2 . "))";
 			// dgc-API-call
 		}
@@ -339,9 +343,12 @@ class WC_Product_Tables_Query {
 			);
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-				$row = $dgc_API_row->properties;
-				wp_cache_set( 'woocommerce_product_' . $row->product_id, $row, 'product' );
+				if (null !== $dgc_API_row->properties) {
+					$row = $dgc_API_row->properties;
+					wp_cache_set( 'woocommerce_product_' . $row->product_id, $row, 'product' );
+				}
 			}
+			// dgc-API-call:end: /retrieveRecords
 
 			// Prime relationships.
 			$dgc_API_args = array(
@@ -352,9 +359,12 @@ class WC_Product_Tables_Query {
 			);
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-				$row = $dgc_API_row->properties;
-				$rel_cache[ $row->product_id ][] = $row;
+				if (null !== $dgc_API_row->properties) {
+					$row = $dgc_API_row->properties;
+					$rel_cache[ $row->product_id ][] = $row;
+				}
 			}
+			// dgc-API-call:end: /retrieveRecords
 
 			// Prime downloads.
 			$dgc_API_args = array(
@@ -365,9 +375,12 @@ class WC_Product_Tables_Query {
 			);
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-				$row = $dgc_API_row->properties;
-				$download_cache[ $row->product_id ][] = $row;
+				if (null !== $dgc_API_row->properties) {
+					$row = $dgc_API_row->properties;
+					$download_cache[ $row->product_id ][] = $row;
+				}
 			}
+			// dgc-API-call:end: /retrieveRecords
 
 			wp_cache_set( 'woocommerce_product_relationships_' . $id, $rel_cache[ $id ], 'product' );
 			wp_cache_set( 'woocommerce_product_downloads_' . $id, $download_cache[ $id ], 'product' );
@@ -433,9 +446,12 @@ class WC_Product_Tables_Query {
 			);
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-				$row = $dgc_API_row->properties;
-				$att_cache[ $row->product_id ][] = $row;
+				if (null !== $dgc_API_row->properties) {
+					$row = $dgc_API_row->properties;
+					$att_cache[ $row->product_id ][] = $row;
+				}
 			}
+			// dgc-API-call:end: /retrieveRecords
 
 			// Prime attribute values.
 			$dgc_API_args = array(
@@ -446,12 +462,15 @@ class WC_Product_Tables_Query {
 			);
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-				$row = $dgc_API_row->properties;
-				if ( ! isset( $att_value_cache[ $row->product_id ] ) ) {
-					$att_value_cache[ $row->product_id ] = array();
+				if (null !== $dgc_API_row->properties) {
+					$row = $dgc_API_row->properties;
+					if ( ! isset( $att_value_cache[ $row->product_id ] ) ) {
+						$att_value_cache[ $row->product_id ] = array();
+					}
+					$att_value_cache[ $row->product_id ][ $row->product_attribute_id ][] = $row;
 				}
-				$att_value_cache[ $row->product_id ][ $row->product_attribute_id ][] = $row;
 			}
+			// dgc-API-call:end: /retrieveRecords
 			wp_cache_set( 'woocommerce_product_attributes_' . $id, $att_cache[ $id ], 'product' );
 			wp_cache_set( 'woocommerce_product_attribute_values_' . $id, $att_value_cache[ $id ], 'product' );
 		}
@@ -493,9 +512,12 @@ class WC_Product_Tables_Query {
 			);
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-				$row = $dgc_API_row->properties;
-				$variation_att_cache[ $row->product_id ][] = $row;
+				if (null !== $dgc_API_row->properties) {
+					$row = $dgc_API_row->properties;
+					$variation_att_cache[ $row->product_id ][] = $row;
+				}
 			}
+			// dgc-API-call:end: /retrieveRecords
 			wp_cache_set( 'woocommerce_product_variation_attribute_values_' . $id, $variation_att_cache[ $id ], 'product' );
 		}
 		// dgc-API-call

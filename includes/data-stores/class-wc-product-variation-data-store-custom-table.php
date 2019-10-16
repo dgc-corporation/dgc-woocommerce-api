@@ -349,11 +349,12 @@ class WC_Product_Variation_Data_Store_Custom_Table extends WC_Product_Data_Store
 			);
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-				$product_attributes = $dgc_API_row->properties;
-				wp_cache_set( 'woocommerce_product_variation_attribute_values_' . $product->get_id(), $product_attributes, 'product' );
+				if (null !== $dgc_API_row->properties) {
+					$product_attributes = $dgc_API_row->properties;
+					wp_cache_set( 'woocommerce_product_variation_attribute_values_' . $product->get_id(), $product_attributes, 'product' );
+				}
 			}
-			// dgc-API-call
-			
+			// dgc-API-call:end: /retrieveRecords
 		}
 
 		if ( ! empty( $product_attributes ) ) {
@@ -630,10 +631,12 @@ class WC_Product_Variation_Data_Store_Custom_Table extends WC_Product_Data_Store
 			);
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-				$attributes = $dgc_API_row->properties;
-				wp_cache_set( 'woocommerce_product_attributes_' . $product->get_parent_id(), $attributes, 'product' );
+				if (null !== $dgc_API_row->properties) {
+					$attributes = $dgc_API_row->properties;
+					wp_cache_set( 'woocommerce_product_attributes_' . $product->get_parent_id(), $attributes, 'product' );
+				}
 			}
-			// dgc-API-call
+			// dgc-API-call:end: /retrieveRecords
 		}
 
 		return wp_list_pluck( $attributes, 'name', 'product_attribute_id' );
@@ -671,10 +674,12 @@ class WC_Product_Variation_Data_Store_Custom_Table extends WC_Product_Data_Store
 			);
 			$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 			foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-				$row = $dgc_API_row->properties;
-				$existing_attributes = wp_list_pluck($row, 'value', 'product_attribute_id');
+				if (null !== $dgc_API_row->properties) {
+					$row = $dgc_API_row->properties;
+					$existing_attributes = wp_list_pluck($row, 'value', 'product_attribute_id');
+				}
 			}
-			// dgc-API-call
+			// dgc-API-call:end: /retrieveRecords
 
 			if ( $attributes ) {
 				$updated_attribute_ids = array();

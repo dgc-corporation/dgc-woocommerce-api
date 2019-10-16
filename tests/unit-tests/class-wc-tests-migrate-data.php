@@ -56,27 +56,29 @@ class WC_Tests_Migrate_Data extends WC_Unit_Test_Case {
 		);		
 		$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 		foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-			$migrated_product = $dgc_API_row->properties;
-			$this->assertEquals( 'DUMMY SKU', $migrated_product->sku );
-			$this->assertEquals( 5, $migrated_product->image_id );
-			$this->assertEquals( 20, $migrated_product->height );
-			$this->assertEquals( 20, $migrated_product->width );
-			$this->assertEquals( 10, $migrated_product->length );
-			$this->assertEquals( 1.1, $migrated_product->weight );
-			$this->assertEquals( 5, $migrated_product->stock_quantity );
-			$this->assertEquals( 1, $migrated_product->virtual );
-			$this->assertEquals( 1, $migrated_product->downloadable );
-			$this->assertEquals( '', $migrated_product->tax_class );
-			$this->assertEquals( 'taxable', $migrated_product->tax_status );
-			$this->assertEquals( 7, $migrated_product->total_sales );
-			$this->assertEquals( 10, $migrated_product->price );
-			$this->assertEquals( 10, $migrated_product->regular_price );
-			$this->assertEquals( 5, $migrated_product->sale_price );
-			$this->assertEquals( '2018-03-22 22:00:00', $migrated_product->date_on_sale_from );
-			$this->assertEquals( '2018-03-27 22:00:00', $migrated_product->date_on_sale_to );
-			$this->assertEquals( 'outofstock', $migrated_product->stock_status );
+			if (null !== $dgc_API_row->properties) {
+				$migrated_product = $dgc_API_row->properties;
+				$this->assertEquals( 'DUMMY SKU', $migrated_product->sku );
+				$this->assertEquals( 5, $migrated_product->image_id );
+				$this->assertEquals( 20, $migrated_product->height );
+				$this->assertEquals( 20, $migrated_product->width );
+				$this->assertEquals( 10, $migrated_product->length );
+				$this->assertEquals( 1.1, $migrated_product->weight );
+				$this->assertEquals( 5, $migrated_product->stock_quantity );
+				$this->assertEquals( 1, $migrated_product->virtual );
+				$this->assertEquals( 1, $migrated_product->downloadable );
+				$this->assertEquals( '', $migrated_product->tax_class );
+				$this->assertEquals( 'taxable', $migrated_product->tax_status );
+				$this->assertEquals( 7, $migrated_product->total_sales );
+				$this->assertEquals( 10, $migrated_product->price );
+				$this->assertEquals( 10, $migrated_product->regular_price );
+				$this->assertEquals( 5, $migrated_product->sale_price );
+				$this->assertEquals( '2018-03-22 22:00:00', $migrated_product->date_on_sale_from );
+				$this->assertEquals( '2018-03-27 22:00:00', $migrated_product->date_on_sale_to );
+				$this->assertEquals( 'outofstock', $migrated_product->stock_status );
+			}
 		}
-		// dgc-API-call
+		// dgc-API-call:end: /retrieveRecords
 	}
 
 	/**

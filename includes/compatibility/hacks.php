@@ -99,12 +99,14 @@ function woocommerce_product_custom_tables_custom_query_vars( $args, $query ) {
 		);
 		$dgc_API_res = dgc_API_call('/retrieveRecords/', 'POST', $dgc_API_args);
 		foreach(json_decode($dgc_API_res['body']) as $dgc_API_row) {
-			foreach ($dgc_API_row->properties as $dgc_API_key => $dgc_API_value) {
-				$key            = esc_sql( sanitize_key( $dgc_API_key ) );
-				$args['where'] .= $wpdb->prepare( " AND wc_products.{$key} = %s ", $dgc_API_value );	
+			if (null !== $dgc_API_row->properties) {
+				foreach ($dgc_API_row->properties as $dgc_API_key => $dgc_API_value) {
+					$key            = esc_sql( sanitize_key( $dgc_API_key ) );
+					$args['where'] .= $wpdb->prepare( " AND wc_products.{$key} = %s ", $dgc_API_value );	
+				}
 			}
 		}
-		// dgc-API-call
+		// dgc-API-call:end: /retrieveRecords
 	}
 
 	return $args;
