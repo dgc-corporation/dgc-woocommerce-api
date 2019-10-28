@@ -52,13 +52,6 @@ function wc_custom_product_tables_bootstrap() {
 add_action( 'plugins_loaded', 'wc_custom_product_tables_bootstrap' );
 
 /**
- * dgc API call
- */
-add_action( 'plugins_loaded', 'dgc_API_prefix' );
-add_action( 'user_register', 'dgc_API_create_user_shortcode', 10, 1 );
-add_action( 'edit_user_profile_update', 'dgc_API_update_user_shortcode');
-
-/**
  * dgc Payment
  */
 $active_plugins = apply_filters('active_plugins', get_option('active_plugins'));
@@ -362,7 +355,7 @@ function dgc_API_encryptedKey() {
 	update_user_meta(get_current_user_id(), 'encryptedKey', json_decode($dgc_API_res['body'])->encryptedKey);
 	return json_encode($dgc_API_res);
 }
-
+*/
 function dgc_API_authorization() {
 	$dgc_API_args = array(
 		'username'	=> get_userdata(get_current_user_id())->user_login,
@@ -372,7 +365,8 @@ function dgc_API_authorization() {
 	update_user_meta(get_current_user_id(), 'authorization', json_decode($dgc_API_res['body'])->authorization);
 	return json_encode($dgc_API_res);
 }
-*/
+
+add_action( 'plugins_loaded', 'dgc_API_prefix' );
 function dgc_API_prefix() {
 	global $wpdb;
 
