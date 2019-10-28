@@ -305,6 +305,43 @@ function dgc_API_mapsApiKey() {
 	}
 }
 
+add_action( 'user_register', 'dgc_API_participant', 10, 1 );
+add_action( 'edit_user_profile_update', 'dgc_API_participant');
+add_shortcode( 'dgc-api-participant', 'dgc_API_participant' );
+function dgc_API_participant() {
+	/**
+	 * check the username for query 
+	 * if the username does NOT exist in users then create a new user
+	 * if the username existed in users then update the user
+	 */
+
+	$dgc_API_args = array(
+		'query'	=> array(
+			'username'	=> get_userdata(get_current_user_id())->user_login,
+		),
+		'data'	=> array(
+			'username'		=> get_userdata(get_current_user_id())->user_login,
+			//'password'		=> get_userdata(get_current_user_id())->user_login,
+			'publicKey'		=> get_user_meta(get_current_user_id(), "publicKey", true ),
+			'email'			=> get_userdata(get_current_user_id())->user_email,
+			'name'			=> get_userdata(get_current_user_id())->display_name,
+			'privateKey'	=> get_user_meta(get_current_user_id(), "privateKey", true ),
+			//'encryptedKey'	=> get_user_meta(get_current_user_id(), "encryptedKey", true ),
+			'hashedPassword'=> get_userdata(get_current_user_id())->user_pass,
+		)
+	);
+	$dgc_API_res = dgc_API_call('/isUsernameExists', 'POST', $dgc_API_args);
+	//return json_encode($dgc_API_res);
+	if (json_decode($dgc_API_res['body']) == []){		
+		dgc_API_make_privateKey();
+		$dgc_API_res = dgc_API_call('/createParticipant', 'POST', $dgc_API_args);
+	} else {
+		//$dgc_API_res = dgc_API_call('/updateParticipants', 'POST', $dgc_API_args);
+	}
+	dgc_API_authorization();
+	//return json_encode($dgc_API_res);
+}
+
 function dgc_API_make_privateKey() {
 	if (get_user_meta(get_current_user_id(), "privateKey", true ) == null) {
 		$dgc_API_res = dgc_API_call('/makePrivateKey', 'POST');
