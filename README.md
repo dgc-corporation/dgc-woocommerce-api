@@ -1,4 +1,4 @@
-# dgc WooCommerce API
+# dgc WooCommerce DB
 
 This is the development repository for our feature plugin to replace WooCommerce product meta data with dgc Blockchain custom tables. This repository also provides the Payment Gateway of dg Coin to direct pay the order and exchange the money from other currencies as well. This feature plugin is currently only available on GitHub, but will move to WordPress.org when more stable.
 
